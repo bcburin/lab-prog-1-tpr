@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#define CODIGO_D_SIZE 5
+
 typedef struct {
   char* codigo;
   char* nome;

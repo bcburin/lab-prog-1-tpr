@@ -23,13 +23,13 @@ int _aluno_determinar_metodo_de_busca() {
 
 // TODO: verificar se todos os caracters sao digitos
 int _aluno_validar_codigo(const char *codigo) {
-  if (strlen(codigo) != 5) return CODIGO_INVALIDO;
+  if (strlen(codigo) != CODIGO_A_SIZE-1) return CODIGO_INVALIDO;
   return 0;
 }
 
 // TODO: verificar se todos os caracters sao digitos
 int _aluno_validar_cpf(const char *cpf) {
-  if (strlen(cpf) != 11) return CPF_INVALIDO;
+  if (strlen(cpf) != CPF_SIZE-1) return CPF_INVALIDO;
   return 0;
 }
 

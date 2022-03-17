@@ -1,5 +1,6 @@
 #include "List.h"
 
+#define list_is_empty(list) ((list)->size == 0)
 
 void _list_attach_nodes(Node *node1, Node *node2) {
   node1->next = node2;
@@ -265,6 +266,18 @@ void* list_search(List *list, int (*condition)(void *data, void *key), void *key
 }
 
 
+List* list_search_all(List *list, int (*condition)(void *data, void *key), void *key) {
+  List *trues = list_create(list->destroy);
+
+  for(Node curr = list->head; cur; cur->next) {
+    if ( condition(cur->data, key) ) list_push( trues, cur->data );
+  }
+
+  return trues;
+}
+
+
+
 void list_apply(List *list, void (*applyf)(void *data)) {
   for (Node *cur = list->head; cur; cur = cur->next) {
     applyf(cur->data);
@@ -284,9 +297,6 @@ void list_save(List *list, char *filename, void (*write)(FILE *fp, void *data)) 
   fwrite(&list->size, sizeof(int), 1, fp);
 
   for( Node *curr = list->head; curr; curr = curr->next) {
-    if(curr == NULL) {
-      printf("\nNULL Node!\n");
-    }
     write(fp, curr->data);
   }
 

@@ -2,7 +2,7 @@
 #ifndef ALUNO_H
 #define ALUNO_H
 
-#define CODIGO_SIZE 5
+#define CODIGO_A_SIZE 6
 #define CPF_SIZE 12
 
 #include <stdio.h>

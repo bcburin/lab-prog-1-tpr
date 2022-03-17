@@ -51,7 +51,7 @@ void fwrite_aluno(FILE *fp, void* aluno) {
   // Escrever dados no arquivo
   fwrite( &nome_size, sizeof(int), 1, fp );
   fwrite( nome , sizeof(char), nome_size, fp);
-  fwrite( codigo , sizeof(char), CODIGO_SIZE, fp);
+  fwrite( codigo , sizeof(char), CODIGO_A_SIZE, fp);
   fwrite( cpf , sizeof(char), CPF_SIZE, fp);
 }
 
@@ -66,13 +66,13 @@ void* fread_aluno(FILE *fp) {
 
   // Alocar espaco para os campos a serem lidos do arquivo
   char *nome = malloc( sizeof(char) * nome_size );
-  char *codigo = malloc( sizeof(char) * CODIGO_SIZE);
+  char *codigo = malloc( sizeof(char) * CODIGO_A_SIZE);
   char *cpf = malloc( sizeof(char) * CPF_SIZE);
   
 
   // Ler outras entradas do arquivo
   fread( nome , sizeof(char), nome_size, fp);
-  fread( codigo , sizeof(char), CODIGO_SIZE, fp);
+  fread( codigo , sizeof(char), CODIGO_A_SIZE, fp);
   fread( cpf , sizeof(char), CPF_SIZE, fp);
 
   // Colocar dados lidos na estrutura
