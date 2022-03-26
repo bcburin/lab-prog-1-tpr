@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #define CODIGO_D_SIZE 5
 #define CREDITOS_D_SIZE 2
@@ -11,7 +12,7 @@ typedef struct {
   char* codigo;
   char* nome;
   char* professor;
-  char*  creditos;
+  char* creditos;
 } Disciplina;
 
 /* FUNCAO DESTRUTORA */

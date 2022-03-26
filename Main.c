@@ -7,10 +7,14 @@
 // #include "Lista_Disciplinas.h"
 
 /* OPCOES DO MENU */
-typedef enum {CADASTRAR_ALUNO = 1, REMOVER_ALUNO, 
-              CADASTRAR_DISCIPLINA, REMOVER_DISCIPLINA,
-              MOSTRAR_ALUNOS, MOSTRAR_DISCIPLINAS,
-              CONSULTAR_ALUNO, CONSULTAR_DISCIPLINA,
+typedef enum {CADASTRAR_ALUNO = 1, 
+              REMOVER_ALUNO, 
+              CADASTRAR_DISCIPLINA, 
+              REMOVER_DISCIPLINA,
+              MOSTRAR_ALUNOS, 
+              MOSTRAR_DISCIPLINAS,
+              CONSULTAR_ALUNO, 
+              CONSULTAR_DISCIPLINA,
               SAIR
               } Opcao;
 
