@@ -2,9 +2,9 @@
 #define LISTA_ALUNOS_H
 
 #include <string.h>
-#include "List.h"
-#include "Aluno.h"
-#include "Style.h"
+#include "List.c"
+#include "Aluno.c"
+#include "Style.c"
 
 typedef enum {
   CODIGO_INVALIDO = -1,

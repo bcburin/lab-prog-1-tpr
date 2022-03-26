@@ -1,5 +1,5 @@
 #include "Lista_Alunos.h"
-
+#include "Auxiliar.h"
 
 int _aluno_determinar_metodo_de_busca() {
   imprimir_borda();
@@ -18,7 +18,6 @@ int _aluno_determinar_metodo_de_busca() {
 
   return metodo;
 }
-
 
 
 // TODO: verificar se todos os caracters sao digitos
@@ -63,7 +62,7 @@ char* _aluno_cadastrar_codigo() {
   int erro = _aluno_validar_codigo(buffer);
   if (erro) return NULL;
 
-  char *codigo = (char*) malloc( CODIGO_SIZE * sizeof(char));
+  char *codigo = (char*) malloc( CODIGO_A_SIZE * sizeof(char));
 
   strcpy(codigo, buffer);
 
