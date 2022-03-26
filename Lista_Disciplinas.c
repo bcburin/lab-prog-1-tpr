@@ -107,21 +107,31 @@ char* _disciplina_cadastrar_creditos(){
 }
 
 int cadastrar_disciplina(List *disciplinas) {
-  Disciplina *disciplina = (Disciplina*) malloc(sizeof(Disciplina)); 
+  char *nome = NULL;
+  char *codigo = NULL;
+  char *professor = NULL;
+  char *creditos = NULL;
 
   imprimir_borda();
 
-  disciplina->nome = _disciplina_cadastrar_nome();
-  if(!disciplina->nome) return DISCIPLINA_NAO_ENCONTRADA;
+  nome = _disciplina_cadastrar_nome();
+  // if(!nome) return NOME_INVALIDO;
 
-  disciplina->codigo = _disciplina_cadastrar_codigo();
-  if(!disciplina->codigo) return CODIGO_INVALIDO;
+  codigo = _disciplina_cadastrar_codigo();
+  if(!codigo) return CODIGO_INVALIDO;
 
-  disciplina->professor = _disciplina_cadastrar_professor();
+  professor = _disciplina_cadastrar_professor();
+  // if(!professor) return NOME_INVALIDO
 
-  disciplina->creditos = _disciplina_cadastrar_creditos();
-  if(!disciplina->creditos) return CREDITOS_INVALIDO;
+  creditos = _disciplina_cadastrar_creditos();
+  if(!creditos) return CREDITOS_INVALIDO;
   
+  Disciplina *disciplina = (Disciplina*) malloc(sizeof(Disciplina)); 
+  disciplina->nome = nome;
+  disciplina->codigo = codigo;
+  disciplina->professor = professor;
+  disciplina->creditos = creditos;
+
   list_push(disciplinas, disciplina);
 
   imprimir_borda();

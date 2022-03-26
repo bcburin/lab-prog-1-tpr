@@ -28,14 +28,14 @@ void destruir_registro(void *registro) {
 
 
 int procurar_registro_por_aluno(void *registro, void *aluno_codigo) {
-  char registro_aluno_codigo = ((Registro*)registro)->aluno_codigo;
+  char *registro_aluno_codigo = ((Registro*)registro)->aluno_codigo;
 
   return strcmp(registro_aluno_codigo, aluno_codigo) == 0;
 }
 
 
 int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo) {
-  char registro_disciplina_codigo = ((Registro*)registro)->disciplina_codigo;
+  char *registro_disciplina_codigo = ((Registro*)registro)->disciplina_codigo;
 
   return strcmp(registro_disciplina_codigo, disciplina_codigo) == 0;
 }

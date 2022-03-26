@@ -82,5 +82,5 @@ void* fread_disciplina(FILE *fp) {
   disciplina->creditos = creditos;
   disciplina->codigo = codigo;
 
-  return data;
+  return (void*) disciplina;
 }

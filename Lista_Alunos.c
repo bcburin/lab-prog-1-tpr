@@ -91,18 +91,25 @@ char* _aluno_cadastrar_cpf() {
 
 
 int cadastrar_aluno(List *alunos) {
-  Aluno *aluno = (Aluno*) malloc(sizeof(Aluno)); 
+  char *nome;
+  char *codigo;
+  char *cpf;
 
   imprimir_borda();
 
-  aluno->nome = _aluno_cadastrar_nome();
+  nome = _aluno_cadastrar_nome();
   // if(!aluno->nome) return NOME_INVALIDO;
 
-  aluno->codigo = _aluno_cadastrar_codigo();
-  if(!aluno->codigo) return CODIGO_INVALIDO;
+  codigo = _aluno_cadastrar_codigo();
+  if(!codigo) return CODIGO_INVALIDO;
   
-  aluno->cpf = _aluno_cadastrar_cpf();
-  if(!aluno->cpf) return CPF_INVALIDO;
+  cpf = _aluno_cadastrar_cpf();
+  if(!cpf) return CPF_INVALIDO;
+
+  Aluno *aluno = (Aluno*) malloc(sizeof(Aluno)); 
+  aluno->nome = nome;
+  aluno->codigo = codigo;
+  aluno->cpf = cpf;
   
   list_push(alunos, aluno);
 
