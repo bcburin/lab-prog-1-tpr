@@ -4,8 +4,8 @@
 
 int _disciplina_determinar_metodo_de_busca() {
   imprimir_borda();
-  printf("%d - Por nome\n", POR_NOME);
-  printf("%d - Por codigo\n", POR_CODIGO);
+  printf("%d - Por nome\n", POR_NOME_D);
+  printf("%d - Por codigo\n", POR_CODIGO_D);
 
   imprimir_borda();
 
@@ -24,113 +24,105 @@ int _disciplina_determinar_metodo_de_busca() {
 
 
 int _disciplina_validar_codigo(const char *codigo) {
-  if (strlen(codigo) != CODIGO_D_SIZE-1) return CODIGO_INVALIDO;
-  if(!is_digit(codigo)) return CODIGO_INVALIDO;
+  if (strlen(codigo) != CODIGO_D_SIZE-1) return CODIGO_D_INVALIDO;
+  if(!is_digit(codigo)) return CODIGO_D_INVALIDO;
   return 0;
 }
 
 int _disciplina_validar_creditos(const char *creditos){
-  if (strlen(creditos) != CREDITOS_D_SIZE-1) return CREDITOS_INVALIDO;
+  // if (strlen(creditos) != CREDITOS_D_SIZE) return CREDITOS_INVALIDO;
   if(!is_digit(creditos)) return CREDITOS_INVALIDO;
   return 0;
 }
 
-char* _disciplina_cadastrar_nome() {
-  char buffer[50];
+int _disciplina_cadastrar_nome(char *nome) {
 
   printf("\nInsira o nome da disciplina: ");
 
   fflush(stdin);
-  scanf("%[^\n]", buffer);
+  scanf("%[^\n]", nome);
 
   // TODO: validar nome
 
-  char *nome = (char*) malloc( (strlen(buffer) + 1) * sizeof(char));
-
-  strcpy(nome, buffer);
-
-  return nome;
+  return 0;
 }
 
 
-char* _disciplina_cadastrar_codigo() {
-  char buffer[20];
+int _disciplina_cadastrar_codigo(char *codigo) {
 
   printf("\nInsira o codigo da disciplina: ");
 
   fflush(stdin);
-  scanf("%s", buffer);
+  scanf("%s", codigo);
 
-  int erro = _disciplina_validar_codigo(buffer);
-  if (erro) return NULL;
+  int erro = _disciplina_validar_codigo(codigo);
+  if (erro) return CODIGO_D_INVALIDO;
 
-  char *codigo = (char*) malloc( CODIGO_D_SIZE * sizeof(char));
-
-  strcpy(codigo, buffer);
-
-  return codigo;
+  return 0;
 }
 
-char* _disciplina_cadastrar_professor() {
-  char buffer[50];
+int _disciplina_cadastrar_professor(char *professor) {
 
   printf("\nInsira o nome do professor da disciplina: ");
 
   fflush(stdin);
-  scanf("%[^\n]", buffer);
+  scanf("%[^\n]", professor);
 
   // TODO: validar nome
 
-  char *professor = (char*) malloc( (strlen(buffer) + 1) * sizeof(char));
-
-  strcpy(professor, buffer);
-
-  return professor;
+  return 0;
 }
 
-char* _disciplina_cadastrar_creditos(){
-    char buffer[10];
+int _disciplina_cadastrar_creditos(char *creditos){
 
     printf("\nInsira os creditos da disciplina: ");
 
     fflush(stdin);
-    scanf("%s", buffer);
+    scanf("%s", creditos);
 
-    int erro = _disciplina_validar_creditos(buffer);
-    if (erro) return NULL;
+    int erro = _disciplina_validar_creditos(creditos);
+    if (erro) return CREDITOS_INVALIDO;
 
-    char *creditos = (char*) malloc( CREDITOS_D_SIZE * sizeof(char));
-
-    strcpy(creditos, buffer);
-
-    return creditos;
+    return 0;
 }
 
 int cadastrar_disciplina(List *disciplinas) {
-  char *nome = NULL;
-  char *codigo = NULL;
-  char *professor = NULL;
-  char *creditos = NULL;
+  char nome[30];
+  char codigo[10];
+  char professor[50];
+  char creditos[10];
 
   imprimir_borda();
-
-  nome = _disciplina_cadastrar_nome();
-  // if(!nome) return NOME_INVALIDO;
-
-  codigo = _disciplina_cadastrar_codigo();
-  if(!codigo) return CODIGO_INVALIDO;
-
-  professor = _disciplina_cadastrar_professor();
-  // if(!professor) return NOME_INVALIDO
-
-  creditos = _disciplina_cadastrar_creditos();
-  if(!creditos) return CREDITOS_INVALIDO;
   
+  int erro = 0;
+
+  erro = _disciplina_cadastrar_nome(nome);
+  if(erro) return erro;
+
+  erro = _disciplina_cadastrar_codigo(codigo);
+  printf("\nErro: %d\n", erro);
+  if(erro) return erro;
+
+  erro = _disciplina_cadastrar_professor(professor);
+  printf("\nErro: %d\n", erro);
+  if(erro) return erro;
+  
+  erro = _disciplina_cadastrar_creditos(creditos);
+  printf("\nErro: %d\n", erro);
+  if(erro) return erro;
+
+  // Alocar memoria para a disciplina (apenas se nao houver erro)
   Disciplina *disciplina = (Disciplina*) malloc(sizeof(Disciplina)); 
-  disciplina->nome = nome;
-  disciplina->codigo = codigo;
-  disciplina->professor = professor;
-  disciplina->creditos = creditos;
+  disciplina->nome = (char*) malloc( sizeof(char) * (strlen(nome) + 1) );
+  disciplina->codigo = (char*) malloc( sizeof(char) * CODIGO_D_SIZE );
+  disciplina->professor = (char*) malloc( sizeof(char) * (strlen(professor) + 1) );
+  disciplina->creditos = (char*) malloc( sizeof(char) * (strlen(creditos) + 1) );
+
+  // Setar dados da disciplina
+  strcpy(disciplina->nome, nome);
+  strcpy(disciplina->codigo, codigo);
+  strcpy(disciplina->professor, professor);
+  strcpy(disciplina->creditos, creditos);
 
   list_push(disciplinas, disciplina);
 
@@ -151,14 +143,14 @@ int remover_disciplina(List *disciplinas) {
   int erro = 0;
 
   switch (metodo) {
-    case POR_NOME:
+    case POR_NOME_D:
       printf("\nInsira o nome ou parte do nome da disciplina: ");
       scanf("%[^\n]", &key);
       if ( list_remove_first(disciplinas, procurar_disciplina_por_nome, key) )
         return DISCIPLINA_NAO_ENCONTRADA;
       break;
 
-    case POR_CODIGO:
+    case POR_CODIGO_D:
       printf("\nInsira o codigo: ");
       scanf("%[^\n]", &key);
       erro = _disciplina_validar_codigo(key);
@@ -188,12 +180,12 @@ int consultar_disciplina(List *disciplinas) {
   int erro = 0;
 
   switch (metodo) {
-    case POR_NOME:
+    case POR_NOME_D:
       printf("\nInsira o nome ou parte do nome: ");
       scanf("%[^\n]", &key);
       disciplina = list_search(disciplinas, procurar_disciplina_por_nome, key);
       break;
-    case POR_CODIGO:
+    case POR_CODIGO_D:
       printf("\nInsira o codigo: ");
       scanf("%[^\n]", &key);
       erro = _disciplina_validar_codigo(key);

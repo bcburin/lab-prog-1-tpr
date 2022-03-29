@@ -7,6 +7,7 @@
 #include "Manejo_Disciplinas.h"
 #include "List.h"
 #include "Registro.h"
+#include "Auxiliar.h"
 
 typedef enum erro_registro_registro_{
   CODIGO_INVALIDO = -1,
@@ -21,6 +22,6 @@ int consultar_alunos_de_disciplina(List *registro, List *alunos, List *disciplin
 
 int _registro_validar_periodo(const char *periodo);
 
-char* _registro_cadastrar_periodo();
+int _registro_cadastrar_periodo(char*);
 
 #endif

@@ -3,8 +3,8 @@
 
 int _aluno_determinar_metodo_de_busca() {
   imprimir_borda();
-  printf("%d - Por nome\n", POR_NOME);
-  printf("%d - Por codigo\n", POR_CODIGO);
+  printf("%d - Por nome\n", POR_NOME_A);
+  printf("%d - Por codigo\n", POR_CODIGO_A);
   printf("%d - Por CPF\n", POR_CPF);
   imprimir_borda();
 
@@ -22,7 +22,7 @@ int _aluno_determinar_metodo_de_busca() {
 
 // TODO: verificar se todos os caracters sao digitos
 int _aluno_validar_codigo(const char *codigo) {
-  if (strlen(codigo) != CODIGO_A_SIZE-1) return CODIGO_INVALIDO;
+  if (strlen(codigo) != CODIGO_A_SIZE-1) return CODIGO_A_INVALIDO;
   return 0;
 }
 
@@ -33,84 +33,79 @@ int _aluno_validar_cpf(const char *cpf) {
 }
 
 
-char* _aluno_cadastrar_nome() {
-  char buffer[50];
-
+int _aluno_cadastrar_nome(char *nome) {
   printf("\nInsira o nome do aluno: ");
 
   fflush(stdin);
-  scanf("%[^\n]", buffer);
+  scanf("%[^\n]", nome);
 
   // TODO: validar nome
 
-  char *nome = (char*) malloc( (strlen(buffer) + 1) * sizeof(char));
-
-  strcpy(nome, buffer);
-
-  return nome;
+  return 0;
 }
 
 
-char* _aluno_cadastrar_codigo() {
-  char buffer[20];
+int _aluno_cadastrar_codigo(char *codigo) {
 
   printf("\nInsira o codigo do aluno: ");
 
   fflush(stdin);
-  scanf("%s", buffer);
+  scanf("%s", codigo);
 
-  int erro = _aluno_validar_codigo(buffer);
-  if (erro) return NULL;
+  int erro = _aluno_validar_codigo(codigo);
+  if (erro) return CODIGO_A_INVALIDO;
 
-  char *codigo = (char*) malloc( CODIGO_A_SIZE * sizeof(char));
 
-  strcpy(codigo, buffer);
-
-  return codigo;
+  return 0;
 }
 
 
-char* _aluno_cadastrar_cpf() {
-  char buffer[20];
+int _aluno_cadastrar_cpf(char *cpf) {
 
   printf("\nInsira o CPF do aluno (sem pontos e tracos): ");
 
   fflush(stdin);
-  scanf("%s", buffer);
+  scanf("%s", cpf);
 
-  int erro = _aluno_validar_cpf(buffer);
+  int erro = _aluno_validar_cpf(cpf);
+  if(erro) return CPF_INVALIDO;
 
-  if(erro) return NULL;
-
-  char *cpf = (char*) malloc( CPF_SIZE * sizeof(char));
-
-  strcpy(cpf, buffer);
-
-  return cpf;
+  return 0;
 }
 
 
 int cadastrar_aluno(List *alunos) {
-  char *nome;
-  char *codigo;
-  char *cpf;
+
+  // Declarar variaveis de buffer
+  char nome[30];
+  char codigo[10];
+  char cpf[20];
 
   imprimir_borda();
 
-  nome = _aluno_cadastrar_nome();
-  // if(!aluno->nome) return NOME_INVALIDO;
+  int erro = 0;
 
-  codigo = _aluno_cadastrar_codigo();
-  if(!codigo) return CODIGO_INVALIDO;
+  erro = _aluno_cadastrar_nome(nome);
+  if(erro) return erro;
   
-  cpf = _aluno_cadastrar_cpf();
-  if(!cpf) return CPF_INVALIDO;
+  erro = _aluno_cadastrar_codigo(codigo);
+  if(erro) return erro;
+  
+  erro = _aluno_cadastrar_cpf(cpf);
+  if(erro) return erro;
 
+  // Alocar memoria para aluno (apenas se nao houver erros)
   Aluno *aluno = (Aluno*) malloc(sizeof(Aluno)); 
-  aluno->nome = nome;
-  aluno->codigo = codigo;
-  aluno->cpf = cpf;
+  aluno->nome = malloc( sizeof(char) * (strlen(nome) + 1) );
+  aluno->codigo = malloc( sizeof(char) * CODIGO_A_SIZE );
+  aluno->cpf = malloc( sizeof(char) * CPF_SIZE );
+
+  // Setar dados do aluno
+  strcpy(aluno->nome, nome);
+  strcpy(aluno->codigo, codigo);
+  strcpy(aluno->cpf, cpf);
   
+  // Adicionar aluno ao fim da lista
   list_push(alunos, aluno);
 
   return 0;
@@ -128,13 +123,13 @@ int remover_aluno(List *alunos) {
   int erro = 0;
 
   switch (metodo) {
-    case POR_NOME:
+    case POR_NOME_A:
       printf("\nInsira o nome ou parte do nome: ");
       scanf("%[^\n]", &key);
       if ( list_remove_first(alunos, procurar_aluno_por_nome, key) )
         return ALUNO_NAO_ENCONTRADO;
       break;
-    case POR_CODIGO:
+    case POR_CODIGO_A:
       printf("\nInsira o codigo: ");
       scanf("%[^\n]", &key);
       erro = _aluno_validar_codigo(key);
@@ -170,12 +165,12 @@ int consultar_aluno(List *alunos) {
   int erro = 0;
 
   switch (metodo) {
-    case POR_NOME:
+    case POR_NOME_A:
       printf("\nInsira o nome ou parte do nome: ");
       scanf("%[^\n]", &key);
       aluno = list_search(alunos, procurar_aluno_por_nome, key);
       break;
-    case POR_CODIGO:
+    case POR_CODIGO_A:
       printf("\nInsira o codigo: ");
       scanf("%[^\n]", &key);
       erro = _aluno_validar_codigo(key);

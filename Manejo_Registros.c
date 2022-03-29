@@ -2,16 +2,14 @@
 #include "Manejo_Registros.h"
 
 int consultar_disciplinas_de_aluno(List *registros,List *alunos, List *disciplinas ){
-    Registro *resultados_busca_1;// = (Registro*) malloc(sizeof(Registro)); 
-    Registro *resultados_busca_2;
+    List *resultados_busca_1;// = (Registro*) malloc(sizeof(Registro)); 
+    List *resultados_busca_2;
 
     imprimir_borda();
     fflush(stdin);
 
     char key_al[50];
     char key_per[30];
-    
-    int erro = 0;
 
     printf("\nInsira o código do aluno: ");
     scanf("%[^\n]", &key_al);
@@ -42,8 +40,8 @@ int consultar_disciplinas_de_aluno(List *registros,List *alunos, List *disciplin
 
 /* consulta alunos de uma disciplina em um período */
 int consultar_alunos_de_disciplina(List *registros, List *alunos, List *disciplinas){
-    Registro *resultados_busca_1;// = (Registro*) malloc(sizeof(Registro)); 
-    Registro *resultados_busca_2;
+    List *resultados_busca_1;// = (Registro*) malloc(sizeof(Registro)); 
+    List *resultados_busca_2;
 
     imprimir_borda();
     fflush(stdin);
@@ -51,7 +49,6 @@ int consultar_alunos_de_disciplina(List *registros, List *alunos, List *discipli
     char key_dis[50];
     char key_per[30];
     
-    int erro = 0;
 
     printf("\nInsira o código da disciplina: ");
     scanf("%[^\n]", &key_dis);
@@ -85,20 +82,15 @@ int _registro_validar_periodo(const char *periodo){
     return 0;
 }
 
-char* _registro_cadastrar_periodo() {
-  char buffer[20];
+int _registro_cadastrar_periodo(char* periodo) {
 
   printf("\nInsira o periodo do registro sem pontos (20181/20202): ");
 
   fflush(stdin);
-  scanf("%s", buffer);
+  scanf("%s", periodo);
 
-  int erro = _registro_validar_periodo(buffer);
-  if (erro) return NULL;
+  int erro = _registro_validar_periodo(periodo);
+  if (erro) return PERIODO_INVALIDO;
 
-  char *periodo = (char*) malloc( PERIODO_SIZE * sizeof(char));
-
-  strcpy(periodo, buffer);
-
-  return periodo;
+  return 0;
 }

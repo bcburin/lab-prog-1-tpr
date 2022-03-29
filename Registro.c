@@ -3,18 +3,35 @@
 //função matricular no registro
 
 int cadastrar_registro(List *registros) {
-  Registro *registro = (Registro*) malloc(sizeof(Registro)); 
+  char aluno_codigo[30];
+  char disciplina_codigo[30];
+  char periodo[10];
 
   imprimir_borda();
 
-  registro->aluno_codigo = _aluno_cadastrar_codigo();
+  int erro = 0;
 
-  registro->disciplina_codigo = _disciplina_cadastrar_codigo();
-  if(!registro->disciplina_codigo) return DISCIPLINA_NAO_ENCONTRADA;
+  erro = _aluno_cadastrar_codigo(aluno_codigo);
+  if(erro) return erro;
+
+  erro = _disciplina_cadastrar_codigo(disciplina_codigo);
+  if(erro) return erro;
   
-  registro->periodo = _registro_cadastrar_periodo();
-  if(!registro->periodo) return PERIODO_INVALIDO;
-  
+  erro = _registro_cadastrar_periodo(periodo);
+  if(erro) return erro;
+
+  // Alocar memoria para o registro (apenas se nao houver erro)
+  Registro *registro = (Registro*) malloc(sizeof(Registro)); 
+  registro->aluno_codigo = (char*) malloc(sizeof(char) * CODIGO_A_SIZE);
+  registro->disciplina_codigo = (char*) malloc(sizeof(char) * CODIGO_D_SIZE);
+  registro->periodo = (char*) malloc(sizeof(char) * PERIODO_SIZE);
+
+  // Setar valores de registro
+  strcpy(registro->aluno_codigo, aluno_codigo);
+  strcpy(registro->disciplina_codigo, disciplina_codigo);
+  strcpy(registro->periodo, periodo);
+
+  // Inserir registro na lista
   list_push(registros, registro);
 
   return 0;

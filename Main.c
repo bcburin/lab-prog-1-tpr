@@ -40,22 +40,22 @@ int main() {
     switch(op) {
       case CADASTRAR_ALUNO:
         erro = cadastrar_aluno(alunos);
-        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
         break;
       case REMOVER_ALUNO:
         erro = remover_aluno(alunos);
-        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
         if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
         break;
       case CADASTRAR_DISCIPLINA:
         erro = cadastrar_disciplina(disciplinas);
-        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         break;
       case REMOVER_DISCIPLINA:
-        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         break;
       case MOSTRAR_ALUNOS:
@@ -68,14 +68,14 @@ int main() {
         break;
       case CONSULTAR_ALUNO:
         erro = consultar_aluno(alunos);
-        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
         if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
         pressione_para_continuar();
         break;
       case CONSULTAR_DISCIPLINA:
         erro = consultar_disciplina(disciplinas);
-        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         if (erro == CREDITOS_INVALIDO) printf("\nCreditos invalidos!\n");
         pressione_para_continuar();
@@ -100,11 +100,12 @@ int main() {
   
   // Persistir memoria
   list_save(alunos, "alunos.bin", fwrite_aluno);
+  list_save(disciplinas, "disciplinas.bin", fwrite_disciplina);
 
 
   // Liberar memoria utilizada para as listas
   list_destroy(alunos);
-  // list_destroy(disciplinas);
+  list_destroy(disciplinas);
   
   return 0;
 }

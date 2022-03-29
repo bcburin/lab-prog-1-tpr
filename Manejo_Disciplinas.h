@@ -7,15 +7,15 @@
 #include "Style.h"
 
 typedef enum {
-  CODIGO_INVALIDO = -1,
-  METODO_INVALIDO = -2,
+  CODIGO_D_INVALIDO = -1,
+  METODO_D_INVALIDO = -2,
   DISCIPLINA_NAO_ENCONTRADA = -3,
   CREDITOS_INVALIDO = -4,
 } ERRO_REGISTRO_DISCIPLINA;
 
 typedef enum {
-  POR_NOME = 1,
-  POR_CODIGO,
+  POR_NOME_D = 1,
+  POR_CODIGO_D,
 } METODO_DE_BUSCA_D;
 
 /* FUNCOES PRIVADAS */
@@ -26,13 +26,13 @@ int _disciplina_validar_codigo(const char *codigo);//ok
 
 int _disciplina_validar_creditos(const char *creditos);//ok
 
-char* _disciplina_cadastrar_nome();//ok
+int _disciplina_cadastrar_nome(char*);//ok
 
-char* _disciplina_cadastrar_codigo();//ok
+int _disciplina_cadastrar_codigo(char*);//ok
 
-char* _disciplina_cadastrar_professor();//ok
+int _disciplina_cadastrar_professor(char*);//ok
 
-char* _disciplina_cadastrar_creditos();//ok
+int _disciplina_cadastrar_creditos(char*);//ok
 
 /* CADASTRAR disciplina */
 
