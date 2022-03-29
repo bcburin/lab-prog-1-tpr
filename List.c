@@ -267,7 +267,7 @@ void* list_search(List *list, int (*condition)(void *data, void *key), void *key
 
 
 List* list_search_all(List *list, int (*condition)(void *data, void *key), void *key) {
-  List *trues = list_create(list->destroy);
+  List *trues = list_create(NULL);
 
   for(Node *cur = list->head; cur; cur->next) {
     if ( condition(cur->data, key) ) list_push( trues, cur->data );

@@ -1,4 +1,4 @@
-#include "Lista_Alunos.h"
+#include "Manejo_Alunos.h"
 #include "Auxiliar.h"
 
 int _aluno_determinar_metodo_de_busca() {

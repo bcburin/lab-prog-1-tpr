@@ -1,5 +1,5 @@
-#ifndef LISTA_ALUNOS_H
-#define LISTA_ALUNOS_H
+#ifndef MANEJO_ALUNOS_H
+#define MANEJO_ALUNOS_H
 
 #include <string.h>
 #include "List.h"
@@ -13,11 +13,11 @@ typedef enum {
   ALUNO_NAO_ENCONTRADO = -4
 } ERRO_REGISTRO_ALUNO;
 
-typedef enum {
+typedef enum metodo_de_busca_a_{
   POR_NOME = 1,
   POR_CODIGO,
   POR_CPF,
-} METODO_DE_BUSCA;
+} METODO_DE_BUSCA_A;
 
 /* FUNCOES PRIVADAS */
 

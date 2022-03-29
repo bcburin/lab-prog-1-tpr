@@ -1,6 +1,26 @@
 #include "Registro.h"
 
-Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *periodo) {
+//função matricular no registro
+
+int cadastrar_registro(List *registros) {
+  Registro *registro = (Registro*) malloc(sizeof(Registro)); 
+
+  imprimir_borda();
+
+  registro->aluno_codigo = _aluno_cadastrar_codigo();
+
+  registro->disciplina_codigo = _disciplina_cadastrar_codigo();
+  if(!registro->disciplina_codigo) return DISCIPLINA_NAO_ENCONTRADA;
+  
+  registro->periodo = _registro_cadastrar_periodo();
+  if(!registro->periodo) return PERIODO_INVALIDO;
+  
+  list_push(registros, registro);
+
+  return 0;
+}
+
+/* Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *periodo) {
   Registro *registro = malloc(sizeof(Registro));
 
   char *new_aluno_codigo = malloc(CODIGO_A_SIZE);
@@ -16,7 +36,7 @@ Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *peri
   registro->periodo = new_periodo;
 
   return registro;
-}
+} */
 
 
 void destruir_registro(void *registro) {
@@ -40,7 +60,28 @@ int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo) {
   return strcmp(registro_disciplina_codigo, disciplina_codigo) == 0;
 }
 
+int procurar_registro_por_periodo(void *registro, void *periodo) {
+  char *registro_periodo = ((Registro*)registro)->periodo;
 
+  return strcmp(registro_periodo, periodo) == 0;
+}
+
+void imprimir_atributo_registro(List *alunos, List *disciplinas,int chave_impressao, void *registro){
+    Aluno *aluno;
+    Disciplina *disciplina;
+    switch (chave_impressao){
+      case IMPRIME_DISCIPLINA:
+        disciplina = list_search(alunos,procurar_disciplina_por_codigo,((Registro *)registro)->disciplina_codigo); 
+        printf("%s\n", disciplina->nome); 
+        break;
+      case IMPRIME_ALUNO:
+        aluno = list_search(alunos,procurar_aluno_por_codigo,((Registro *)registro)->aluno_codigo);
+        printf("%s\n", aluno->nome); 
+        break;
+      default:
+        break;
+    }
+}
 void fwrite_registro(FILE *fp, void* registro) {
   char *aluno_codigo = ((Registro*)registro)->aluno_codigo;
   char *disciplina_codigo = ((Registro*)registro)->disciplina_codigo;

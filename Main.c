@@ -2,19 +2,19 @@
 #include <stdlib.h>
 #include <string.h>
 #include "List.h"
-#include "Lista_Alunos.h"
+#include "Disciplina.h"
+#include "Manejo_Alunos.h"
+#include "Manejo_Disciplinas.h"
 #include "Style.h"
-// #include "Lista_Disciplinas.h"
+
 
 /* OPCOES DO MENU */
-typedef enum {CADASTRAR_ALUNO = 1, 
-              REMOVER_ALUNO, 
-              CADASTRAR_DISCIPLINA, 
-              REMOVER_DISCIPLINA,
-              MOSTRAR_ALUNOS, 
-              MOSTRAR_DISCIPLINAS,
-              CONSULTAR_ALUNO, 
-              CONSULTAR_DISCIPLINA,
+
+typedef enum opcao {CADASTRAR_ALUNO = 1, REMOVER_ALUNO, 
+              CADASTRAR_DISCIPLINA, REMOVER_DISCIPLINA,
+              MOSTRAR_ALUNOS, MOSTRAR_DISCIPLINAS,
+              CONSULTAR_ALUNO, CONSULTAR_DISCIPLINA,
+              CONSULTAR_DISCIPLINAS_ALUNO, CONSULTAR_ALUNOS_DISCIPLINA,
               SAIR
               } Opcao;
 
@@ -23,7 +23,7 @@ void imprimir_menu();
 
 int main() {
   List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
-  // List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
+  List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
 
 
   Opcao op;
@@ -50,17 +50,21 @@ int main() {
         if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
         break;
       case CADASTRAR_DISCIPLINA:
-        printf("cd");
+        erro = cadastrar_disciplina(disciplinas);
+        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         break;
       case REMOVER_DISCIPLINA:
-        printf("rd");
+        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         break;
       case MOSTRAR_ALUNOS:
         list_apply(alunos, imprimir_aluno);
         pressione_para_continuar();
         break;
       case MOSTRAR_DISCIPLINAS:
-        printf("md");
+        list_apply(disciplinas, imprimir_disciplina);
+        pressione_para_continuar();
         break;
       case CONSULTAR_ALUNO:
         erro = consultar_aluno(alunos);
@@ -70,8 +74,18 @@ int main() {
         pressione_para_continuar();
         break;
       case CONSULTAR_DISCIPLINA:
-        printf("cd");
+        erro = consultar_disciplina(disciplinas);
+        if (erro == CODIGO_INVALIDO) printf("\nCodigo invalido!\n");
+        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
+        if (erro == CREDITOS_INVALIDO) printf("\nCreditos invalidos!\n");
+        pressione_para_continuar();
         break;
+      case CONSULTAR_ALUNOS_DISCIPLINA:
+        printf("cAD");
+        break;
+      case CONSULTAR_DISCIPLINAS_ALUNO:
+        printf("cda");
+        break;  
       case SAIR:
         sair = 1;
         break;
@@ -106,6 +120,8 @@ void imprimir_menu() {
   printf("%d - Mostrar disciplinas cadastradas\n", MOSTRAR_DISCIPLINAS);
   printf("%d - Consultar aluno\n", CONSULTAR_ALUNO);
   printf("%d - Consultar disciplina\n", CONSULTAR_DISCIPLINA);
+  printf("%d - Consultar alunos em uma disciplina e período\n", CONSULTAR_ALUNOS_DISCIPLINA);
+  printf("%d - Consultar disciplinas de um aluno e período\n", CONSULTAR_DISCIPLINAS_ALUNO);
   printf("%d - Sair\n", SAIR);
   imprimir_borda();
 }

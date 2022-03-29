@@ -1,4 +1,4 @@
-#include "Lista_Disciplinas.h"
+#include "Manejo_Disciplinas.h"
 #include "Disciplina.h"
 #include "Auxiliar.h"
 

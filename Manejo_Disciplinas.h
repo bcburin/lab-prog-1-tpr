@@ -16,7 +16,7 @@ typedef enum {
 typedef enum {
   POR_NOME = 1,
   POR_CODIGO,
-} METODO_DE_BUSCA;
+} METODO_DE_BUSCA_D;
 
 /* FUNCOES PRIVADAS */
 
