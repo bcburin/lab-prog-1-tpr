@@ -1,5 +1,5 @@
-#ifndef LISTA_ALUNOS_H
-#define LISTA_ALUNOS_H
+#ifndef MANEJO_ALUNOS_H
+#define MANEJO_ALUNOS_H
 
 #include <string.h>
 #include "List.h"
@@ -7,17 +7,17 @@
 #include "Style.h"
 
 typedef enum {
-  CODIGO_INVALIDO = -1,
+  CODIGO_A_INVALIDO = -1,
   CPF_INVALIDO = -2,
   METODO_INVALIDO = -3,
   ALUNO_NAO_ENCONTRADO = -4
 } ERRO_REGISTRO_ALUNO;
 
-typedef enum {
-  POR_NOME = 1,
-  POR_CODIGO,
+typedef enum metodo_de_busca_a_{
+  POR_NOME_A = 1,
+  POR_CODIGO_A,
   POR_CPF,
-} METODO_DE_BUSCA;
+} METODO_DE_BUSCA_A;
 
 /* FUNCOES PRIVADAS */
 
@@ -27,11 +27,11 @@ int _aluno_validar_codigo(const char *codigo);
 
 int _aluno_validar_cpf(const char *cpf);
 
-char* _aluno_cadastrar_nome();
+int _aluno_cadastrar_nome(char*);
 
-char* _aluno_cadastrar_codigo();
+int _aluno_cadastrar_codigo(char*);
 
-char* _aluno_cadastrar_cpf();
+int _aluno_cadastrar_cpf(char*);
 
 
 /* CADASTRAR ALUNO */

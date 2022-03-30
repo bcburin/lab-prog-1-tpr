@@ -1,6 +1,43 @@
 #include "Registro.h"
 
-Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *periodo) {
+//função matricular no registro
+
+int cadastrar_registro(List *registros) {
+  char aluno_codigo[30];
+  char disciplina_codigo[30];
+  char periodo[10];
+
+  imprimir_borda();
+
+  int erro = 0;
+
+  erro = _aluno_cadastrar_codigo(aluno_codigo);
+  if(erro) return erro;
+
+  erro = _disciplina_cadastrar_codigo(disciplina_codigo);
+  if(erro) return erro;
+  
+  erro = _registro_cadastrar_periodo(periodo);
+  if(erro) return erro;
+
+  // Alocar memoria para o registro (apenas se nao houver erro)
+  Registro *registro = (Registro*) malloc(sizeof(Registro)); 
+  registro->aluno_codigo = (char*) malloc(sizeof(char) * CODIGO_A_SIZE);
+  registro->disciplina_codigo = (char*) malloc(sizeof(char) * CODIGO_D_SIZE);
+  registro->periodo = (char*) malloc(sizeof(char) * PERIODO_SIZE);
+
+  // Setar valores de registro
+  strcpy(registro->aluno_codigo, aluno_codigo);
+  strcpy(registro->disciplina_codigo, disciplina_codigo);
+  strcpy(registro->periodo, periodo);
+
+  // Inserir registro na lista
+  list_push(registros, registro);
+
+  return 0;
+}
+
+/* Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *periodo) {
   Registro *registro = malloc(sizeof(Registro));
 
   char *new_aluno_codigo = malloc(CODIGO_A_SIZE);
@@ -16,7 +53,7 @@ Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *peri
   registro->periodo = new_periodo;
 
   return registro;
-}
+} */
 
 
 void destruir_registro(void *registro) {
@@ -28,19 +65,40 @@ void destruir_registro(void *registro) {
 
 
 int procurar_registro_por_aluno(void *registro, void *aluno_codigo) {
-  char registro_aluno_codigo = ((Registro*)registro)->aluno_codigo;
+  char *registro_aluno_codigo = ((Registro*)registro)->aluno_codigo;
 
   return strcmp(registro_aluno_codigo, aluno_codigo) == 0;
 }
 
 
 int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo) {
-  char registro_disciplina_codigo = ((Registro*)registro)->disciplina_codigo;
+  char *registro_disciplina_codigo = ((Registro*)registro)->disciplina_codigo;
 
   return strcmp(registro_disciplina_codigo, disciplina_codigo) == 0;
 }
 
+int procurar_registro_por_periodo(void *registro, void *periodo) {
+  char *registro_periodo = ((Registro*)registro)->periodo;
 
+  return strcmp(registro_periodo, periodo) == 0;
+}
+
+void imprimir_atributo_registro(List *alunos, List *disciplinas,int chave_impressao, void *registro){
+    Aluno *aluno;
+    Disciplina *disciplina;
+    switch (chave_impressao){
+      case IMPRIME_DISCIPLINA:
+        disciplina = list_search(alunos,procurar_disciplina_por_codigo,((Registro *)registro)->disciplina_codigo); 
+        printf("%s\n", disciplina->nome); 
+        break;
+      case IMPRIME_ALUNO:
+        aluno = list_search(alunos,procurar_aluno_por_codigo,((Registro *)registro)->aluno_codigo);
+        printf("%s\n", aluno->nome); 
+        break;
+      default:
+        break;
+    }
+}
 void fwrite_registro(FILE *fp, void* registro) {
   char *aluno_codigo = ((Registro*)registro)->aluno_codigo;
   char *disciplina_codigo = ((Registro*)registro)->disciplina_codigo;
