@@ -25,6 +25,7 @@ int main() {
   List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
   List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
 
+  list_shift(disciplinas);
 
   Opcao op;
   int sair = 0;
@@ -55,6 +56,7 @@ int main() {
         if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         break;
       case REMOVER_DISCIPLINA:
+        erro = remover_disciplina(disciplinas);
         if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
         if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
         break;
@@ -113,6 +115,8 @@ int main() {
 
 void imprimir_menu() {
   imprimir_borda();
+  printf("-------------------     MENU    ---------------------");
+  imprimir_borda();
   printf("\n%d - Cadastrar aluno\n", CADASTRAR_ALUNO);
   printf("%d - Remover aluno\n", REMOVER_ALUNO);
   printf("%d - Cadastrar disciplina\n", CADASTRAR_DISCIPLINA);
@@ -121,8 +125,8 @@ void imprimir_menu() {
   printf("%d - Mostrar disciplinas cadastradas\n", MOSTRAR_DISCIPLINAS);
   printf("%d - Consultar aluno\n", CONSULTAR_ALUNO);
   printf("%d - Consultar disciplina\n", CONSULTAR_DISCIPLINA);
-  printf("%d - Consultar alunos em uma disciplina e período\n", CONSULTAR_ALUNOS_DISCIPLINA);
-  printf("%d - Consultar disciplinas de um aluno e período\n", CONSULTAR_DISCIPLINAS_ALUNO);
+  printf("%d - Consultar alunos em uma disciplina e periodo\n", CONSULTAR_ALUNOS_DISCIPLINA);
+  printf("%d - Consultar disciplinas de um aluno e periodo\n", CONSULTAR_DISCIPLINAS_ALUNO);
   printf("%d - Sair\n", SAIR);
   imprimir_borda();
 }

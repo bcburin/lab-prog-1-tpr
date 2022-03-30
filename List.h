@@ -64,7 +64,7 @@ void list_insert(List *list, void *data, int index); // Adiciona elemento na pos
 
 void* list_pop(List *list);                  // Retira ultimo elemento e o retorna
 
-void* lsit_shift(List *list);                // Retira primeiro elemento e o retorna
+void* list_shift(List *list);                // Retira primeiro elemento e o retorna
 
 void* list_retrieve(List *list, int index);  // Retira o elemento na posicao index e o retorna
 
