@@ -25,7 +25,7 @@ int main() {
   List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
   List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
 
-  list_shift(disciplinas);
+  //list_shift(disciplinas);
 
   Opcao op;
   int sair = 0;
