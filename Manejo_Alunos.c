@@ -19,19 +19,15 @@ int _aluno_determinar_metodo_de_busca() {
   return metodo;
 }
 
-
-// TODO: verificar se todos os caracters sao digitos
 int _aluno_validar_codigo(const char *codigo) {
-  if (strlen(codigo) != CODIGO_A_SIZE-1) return CODIGO_A_INVALIDO;
+  if ((strlen(codigo) != CODIGO_A_SIZE-1) || (!is_digit(codigo))) return CODIGO_A_INVALIDO;
   return 0;
 }
 
-// TODO: verificar se todos os caracters sao digitos
 int _aluno_validar_cpf(const char *cpf) {
-  if (strlen(cpf) != CPF_SIZE-1) return CPF_INVALIDO;
+  if ((strlen(cpf) != CPF_SIZE-1)||(!is_digit(cpf))) return CPF_INVALIDO;
   return 0;
 }
-
 
 int _aluno_cadastrar_nome(char *nome) {
   printf("\nInsira o nome do aluno: ");

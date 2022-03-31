@@ -75,6 +75,7 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
 
   if(erro) return erro;
 
+  //printf("cadastrei o periodo\n");
   resultados_busca_1 = list_search_all(registros, procurar_registro_por_periodo, key_periodo);
   
   imprimir_borda();
@@ -83,25 +84,34 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
     case POR_ALUNO_R:
       erro = _aluno_cadastrar_codigo(key_aluno);
       if(erro) return erro;
-      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);    
+      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);  
+      metodo = IMPRIME_DISCIPLINA;  
       break;
 
     case POR_DISCIPLINA_R:
       erro = _disciplina_cadastrar_codigo(key_disciplina);
       if(erro) return erro;
       resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_disciplina,key_disciplina);
+      metodo = IMPRIME_ALUNO;
+
       break;
   }
 
-  //printf("RESULTADOS");
-  for (Node *cur = resultados_busca_2->head; cur; cur = cur->next) {
+  imprimir_borda();
+  //printf("%d\n", resultados_busca_2->size);
+  if(!(resultados_busca_2->size)) return REGISTRO_NAO_ENCONTRADO;
+  printf("--------------------- RESULTADOS --------------------");
+  imprimir_borda();
+  for(Node *cur = resultados_busca_2->head; cur ; cur=cur->next) {
         imprimir_atributo_registro(alunos, disciplinas, metodo, cur->data);
   }
-
-  if(!registro) return REGISTRO_NAO_ENCONTRADO;
+  
+  pressione_para_continuar();
 
   list_destroy(resultados_busca_1);
   list_destroy(resultados_busca_2);
+
+
   imprimir_borda();
   
   return 0;
