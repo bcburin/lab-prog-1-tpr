@@ -4,7 +4,7 @@
 int _registro_determinar_metodo_de_busca() {
   imprimir_borda();
   printf("%d - Por aluno\n", POR_ALUNO_R);
-  printf("%d - Por codigo\n", POR_CODIGO_A);
+  printf("%d - Por disciplina\n", POR_DISCIPLINA_R);
   imprimir_borda();
 
   printf("\nOpcao desejada: ");
@@ -72,6 +72,7 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
   int erro = 0;
 
   erro =_registro_cadastrar_periodo(key_periodo);
+
   if(erro) return erro;
 
   resultados_busca_1 = list_search_all(registros, procurar_registro_por_periodo, key_periodo);
@@ -97,7 +98,7 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
         imprimir_atributo_registro(alunos, disciplinas, metodo, cur->data);
   }
 
-  //if(!registro) return ALUNO_NAO_ENCONTRADO;
+  if(!registro) return REGISTRO_NAO_ENCONTRADO;
 
   list_destroy(resultados_busca_1);
   list_destroy(resultados_busca_2);
@@ -210,7 +211,7 @@ int _registro_cadastrar_periodo(char* periodo) {
   scanf("%s", periodo);
 
   int erro = _registro_validar_periodo(periodo);
-  if (erro) return PERIODO_INVALIDO;
+  if (erro) return PERIODO_INVALIDO_R;
 
   return 0;
 }

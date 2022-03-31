@@ -7,9 +7,12 @@
 #include "Manejo_Disciplinas.h"
 #include "Manejo_Registros.h"
 #include "Style.h"
+#include "Registro.h"
+#include "Manejo_Registros.h"
 
 
 /* OPCOES DO MENU */
+
 
 typedef enum opcao {CADASTRAR_ALUNO = 1, 
                     REMOVER_ALUNO, 
@@ -31,7 +34,8 @@ void imprimir_menu();
 int main() {
   List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
   List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
-  List *registros = list_load("disciplinas.bin", fread_registro, destruir_registro);
+  List *registros = list_load("registros.bin", fread_registro, destruir_registro);
+
 
   Opcao op;
   int sair = 0;
@@ -82,9 +86,10 @@ int main() {
 
       case CONSULTAR_ALUNO:
         erro = consultar_aluno(alunos);
-        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
-        if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
-        if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
+        if (erro == CODIGO_ALUNO_INVALIDO_R) printf("\nCodigo de aluno invalido!\n");
+        if (erro == CODIGO_DISCIPLINA_INVALIDO_R) printf("\nCodigo de disciplina invalido!\n");
+        if (erro == PERIODO_INVALIDO_R) printf("\nCodigo de disciplina invalido!\n");
+        if (erro == REGISTRO_NAO_ENCONTRADO) printf("\nRegistro nao encontrado!\n");
         pressione_para_continuar();
         break;
 
@@ -116,7 +121,6 @@ int main() {
         if (erro == CODIGO_A_INVALIDO) printf("\nCodigo de aluno invalido!\n");
         if (erro == CODIGO_D_INVALIDO) printf("\nCodigo de disciplian invalido\n");
         break;
-
       case SAIR:
         sair = 1;
         break;
@@ -135,12 +139,11 @@ int main() {
   list_save(disciplinas, "disciplinas.bin", fwrite_disciplina);
   list_save(registros, "registros.bin", fwrite_registro);
 
-
   // Liberar memoria utilizada para as listas
   list_destroy(alunos);
   list_destroy(disciplinas);
   list_destroy(registros);
-  
+
   return 0;
 }
 
@@ -153,6 +156,8 @@ void imprimir_menu() {
   printf("%d - Remover aluno\n", REMOVER_ALUNO);
   printf("%d - Cadastrar disciplina\n", CADASTRAR_DISCIPLINA);
   printf("%d - Remover disciplina\n", REMOVER_DISCIPLINA);
+  printf("%d - Matricular aluno\n", CADASTRAR_REGISTRO);
+  printf("%d - Desmatricular aluno\n", REMOVER_REGISTRO);
   printf("%d - Mostrar alunos cadastrados\n", MOSTRAR_ALUNOS);
   printf("%d - Mostrar disciplinas cadastradas\n", MOSTRAR_DISCIPLINAS);
   printf("%d - Consultar aluno\n", CONSULTAR_ALUNO);

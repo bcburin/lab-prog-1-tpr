@@ -11,7 +11,10 @@
 #include "Style.h"
 
 typedef enum erro_registro_registro_{
-  PERIODO_INVALIDO = 32,
+  CODIGO_ALUNO_INVALIDO_R = -1,
+  CODIGO_DISCIPLINA_INVALIDO_R = -2,
+  PERIODO_INVALIDO_R = -3,
+  REGISTRO_NAO_ENCONTRADO = -4
 } ERRO_REGISTRO_REGISTRO;
 
 typedef enum metodo_de_busca_r{
