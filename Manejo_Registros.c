@@ -211,7 +211,7 @@ int _registro_cadastrar_periodo(char* periodo) {
   scanf("%s", periodo);
 
   int erro = _registro_validar_periodo(periodo);
-  if (erro) return PERIODO_INVALIDO_R;
+  if (erro) return PERIODO_INVALIDO;
 
   return 0;
 }
