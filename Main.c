@@ -113,6 +113,7 @@ int main() {
         if (erro == PERIODO_INVALIDO) printf("\nPeriodo invalido!\n");
         if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
         if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
+        if (erro == REGISTRO_NAO_ENCONTRADO) printf("\nRegistro nao encontrado\n");
         break;
 
       case CONSULTAR_REGISTRO:

@@ -96,14 +96,13 @@ int procurar_registro_por_periodo(void *registro, void *periodo) {
   return strcmp(registro_periodo, periodo) == 0;
 }
 
-void imprimir_atributo_registro(List *alunos, List *disciplinas,int metodo_de_busca, void *registro){
+void imprimir_atributo_registro(List *alunos, List *disciplinas,int metodo, void *registro){
     Aluno *aluno;
     Disciplina *disciplina;
-    switch (metodo_de_busca){
+    switch (metodo){
       case IMPRIME_DISCIPLINA:
-        disciplina = list_search(alunos,procurar_disciplina_por_codigo,((Registro *)registro)->disciplina_codigo); 
+        disciplina = list_search(disciplinas,procurar_disciplina_por_codigo,((Registro *)registro)->disciplina_codigo); 
         printf("%s\n", disciplina->nome); 
-    
         break;
       case IMPRIME_ALUNO:
         aluno = list_search(alunos,procurar_aluno_por_codigo,((Registro *)registro)->aluno_codigo);
