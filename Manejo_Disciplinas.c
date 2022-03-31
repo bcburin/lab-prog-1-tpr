@@ -97,19 +97,29 @@ int cadastrar_disciplina(List *disciplinas) {
   int erro = 0;
 
   erro = _disciplina_cadastrar_nome(nome);
-  if(erro) return erro;
+  if(erro){
+    //printf("\nErro: %d\n", erro);
+    return erro;
+  }
 
   erro = _disciplina_cadastrar_codigo(codigo);
-  printf("\nErro: %d\n", erro);
-  if(erro) return erro;
+  
+  if(erro){
+    //printf("\nErro: %d\n", erro);
+    return erro;
+  }
 
   erro = _disciplina_cadastrar_professor(professor);
-  printf("\nErro: %d\n", erro);
-  if(erro) return erro;
-  
+  if(erro){
+    //printf("\nErro: %d\n", erro);
+    return erro;
+  }
+
   erro = _disciplina_cadastrar_creditos(creditos);
-  printf("\nErro: %d\n", erro);
-  if(erro) return erro;
+  if(erro){
+    //printf("\nErro: %d\n", erro);
+    return erro;
+  }
 
   // Alocar memoria para a disciplina (apenas se nao houver erro)
   Disciplina *disciplina = (Disciplina*) malloc(sizeof(Disciplina)); 

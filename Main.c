@@ -14,7 +14,7 @@ typedef enum opcao {CADASTRAR_ALUNO = 1, REMOVER_ALUNO,
               CADASTRAR_DISCIPLINA, REMOVER_DISCIPLINA,
               MOSTRAR_ALUNOS, MOSTRAR_DISCIPLINAS,
               CONSULTAR_ALUNO, CONSULTAR_DISCIPLINA,
-              CONSULTAR_DISCIPLINAS_ALUNO, CONSULTAR_ALUNOS_DISCIPLINA,
+              CONSULTAR_REGISTRO,
               SAIR
               } Opcao;
 
@@ -25,7 +25,7 @@ int main() {
   List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
   List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
 
-  list_shift(disciplinas);
+  //list_shift(disciplinas);
 
   Opcao op;
   int sair = 0;
@@ -82,12 +82,9 @@ int main() {
         if (erro == CREDITOS_INVALIDO) printf("\nCreditos invalidos!\n");
         pressione_para_continuar();
         break;
-      case CONSULTAR_ALUNOS_DISCIPLINA:
+      case CONSULTAR_REGISTRO:
         printf("cAD");
-        break;
-      case CONSULTAR_DISCIPLINAS_ALUNO:
-        printf("cda");
-        break;  
+        
       case SAIR:
         sair = 1;
         break;
@@ -125,8 +122,7 @@ void imprimir_menu() {
   printf("%d - Mostrar disciplinas cadastradas\n", MOSTRAR_DISCIPLINAS);
   printf("%d - Consultar aluno\n", CONSULTAR_ALUNO);
   printf("%d - Consultar disciplina\n", CONSULTAR_DISCIPLINA);
-  printf("%d - Consultar alunos em uma disciplina e periodo\n", CONSULTAR_ALUNOS_DISCIPLINA);
-  printf("%d - Consultar disciplinas de um aluno e periodo\n", CONSULTAR_DISCIPLINAS_ALUNO);
+  printf("%d - Consultar registro\n", CONSULTAR_REGISTRO);
   printf("%d - Sair\n", SAIR);
   imprimir_borda();
 }
