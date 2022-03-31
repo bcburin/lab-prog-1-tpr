@@ -194,6 +194,8 @@ int consultar_registro_por_disciplina(List *registros, List *disciplinas) {
     list_apply(resultados, imprimir_registro);
   }
 
+  pressione_para_continuar();
+
   list_destroy(resultados);
 }
 
@@ -227,15 +229,17 @@ int remover_registro(List *registros) {
 
   Registro *removido = list_retrieve_first(registros, procurar_registro_por_registro, &registro_chave);
 
+  imprimir_borda();
   if (removido) {
-    imprimir_borda();
-    printf("Matricula ambaixo removida com sucesso: \n");
+    printf("Matricula abaixo removida com sucesso: \n");
     imprimir_registro(removido);
+    destruir_registro(removido);
   } else {
-    printf("Nenhuma matricula a ser romovida!\n");
+    printf("Nenhuma matricula a ser removida!\n");
+    free(removido);//pra nao liberar dados que nao existem
   }
 
-  destruir_registro(removido);
+  return 0;
 }
 
 
@@ -245,7 +249,7 @@ int remover_registros_por_aluno(List *registros) {
   imprimir_borda();
 
   int erro = 0;
-
+  
   erro = _aluno_cadastrar_codigo(aluno_codigo);
   if(erro) return erro;
 

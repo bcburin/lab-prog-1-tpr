@@ -118,14 +118,17 @@ int main() {
       case DESFAZER_MATRICULA:
         erro = remover_registro(registros);
         imprimir_erro(erro);
+        break;
 
       case DESFAZER_MATRICULAS_DE_ALUNO:
         erro = remover_registros_por_aluno(registros);
         imprimir_erro(erro);
+        break;
 
       case DESFAZER_MATRICULAS_DE_DISCIPLINA:
         erro = remover_registros_por_disciplina(registros);
         imprimir_erro(erro);
+        break;
 
       case SAIR:
         sair = 1;
@@ -133,6 +136,7 @@ int main() {
 
       default:
         printf("\nOpcao invalida!\n");
+        break;
     }
   } 
 
@@ -163,7 +167,7 @@ void imprimir_erro(int erro) {
   if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
   if (erro == CODIGO_ALUNO_INVALIDO_R) printf("\nCodigo de aluno invalido!\n");
   if (erro == CODIGO_DISCIPLINA_INVALIDO_R) printf("\nCodigo de disciplina invalido!\n");
-  if (erro == PERIODO_INVALIDO) printf("\nCodigo de disciplina invalido!\n");
+  if (erro == PERIODO_INVALIDO) printf("\nPeriodo invalido!\n");
   if (erro == REGISTRO_NAO_ENCONTRADO) printf("\nRegistro nao encontrado!\n");
   if (erro == OPCAO_INVALIDA) printf("\nEntrada invalida!\n");
 }
