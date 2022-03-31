@@ -11,8 +11,7 @@
 #include "Style.h"
 
 typedef enum erro_registro_registro_{
-  CODIGO_INVALIDO = -1,
-  PERIODO_INVALIDO = -2,
+  PERIODO_INVALIDO = 32,
 } ERRO_REGISTRO_REGISTRO;
 
 typedef enum metodo_de_busca_r{
@@ -28,25 +27,24 @@ int _registro_validar_periodo(const char *periodo);
 
 int _registro_cadastrar_periodo(char*);
 
-/* REMOVER ALUNO */
 
-/* TODO: Remove o registro 
- */
-int remover_registro(List *registros);//IMPLEMENTAR
+/* CADASTRAR REGISTRO */
 
-//TODO
-/* IMPRIMIR O REGISTRO*/
+int cadastrar_registro(List *registros, List *alunos, List *disciplinas);
+
+
+/* REMOVER REGISTROS */
+
+int remover_registro(List *registros);
+
+int remover_registros_por_aluno(List *registros);
+
+int remover_registros_por_disciplina(List *registros);
+
 
 /* CONSULTAR REGISTRO*/
-//TODO: imprimir resultados
+
 int consultar_registro(List *registros, List *alunos, List *disciplinas);
-
-
-/* consulta e imprime todas as disciplinas de um aluno em um período */
-// int consultar_disciplinas_de_aluno(List *registros, List *alunos, List *disciplinas );
-
-/* consulta e imprime alunos de uma disciplina em um período */
-// int consultar_alunos_de_disciplina(List *registro, List *alunos, List *disciplinas);
 
 
 
