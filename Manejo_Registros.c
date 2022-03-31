@@ -1,79 +1,80 @@
 
 #include "Manejo_Registros.h"
 
-int consultar_disciplinas_de_aluno(List *registros,List *alunos, List *disciplinas ){
-    List *resultados_busca_1;// = (Registro*) malloc(sizeof(Registro)); 
-    List *resultados_busca_2;
+int _registro_determinar_metodo_de_busca() {
+  imprimir_borda();
+  printf("%d - Por aluno\n", POR_ALUNO_R);
+  printf("%d - Por codigo\n", POR_CODIGO_A);
+  imprimir_borda();
 
-    imprimir_borda();
-    fflush(stdin);
+  printf("\nOpcao desejada: ");
 
-    char key_al[50];
-    char key_per[30];
+  int metodo = 0;
+  fflush(stdin);
+  scanf("%d", &metodo);
 
-    printf("\nInsira o código do aluno: ");
-    scanf("%[^\n]", &key_al);
-    fflush(stdin);
-    printf("\nInsira o periodo sem traços ou pontos (20181 20202): ");
-    scanf("%[^\n]", &key_per);
-    imprimir_borda();
-    fflush(stdin);
+  // Validar metodo
 
-    int erro = 0;
-    erro = _aluno_validar_codigo(key_al);
-    if(erro) return erro;
-    erro =_registro_validar_periodo(key_per);
-    if(erro) return erro;
-
-    resultados_busca_1 = list_search_all(registros,procurar_registro_por_aluno,key_al);
-    resultados_busca_2 = list_search_all(resultados_busca_1, procurar_registro_por_periodo, key_per);
-
-    //como usar list_apply?
-    //list_apply(resultados_busca_2, imprimir_atributo_registro(alunos,disciplinas, IMPRIME_ALUNO));
-    //if(!registro) return CODIGO_INVALIDO;
-
-    list_destroy(resultados_busca_1);
-    list_destroy(resultados_busca_2);
-    imprimir_borda;
-  return 0;
+  return metodo;
 }
 
-/* consulta alunos de uma disciplina em um período */
-int consultar_alunos_de_disciplina(List *registros, List *alunos, List *disciplinas){
-    List *resultados_busca_1;// = (Registro*) malloc(sizeof(Registro)); 
-    List *resultados_busca_2;
 
-    imprimir_borda();
-    fflush(stdin);
+int consultar_registro(List *registros, List *alunos, List *disciplinas){
+  int metodo = _registro_determinar_metodo_de_busca();
+  if(metodo < 0) return metodo; // Retornar erro
 
-    char key_dis[50];
-    char key_per[30];
-    
+  imprimir_borda();
+  fflush(stdin);
 
-    printf("\nInsira o código da disciplina: ");
-    scanf("%[^\n]", &key_dis);
-    fflush(stdin);
-    printf("\nInsira o periodo sem traços ou pontos (20181 20202): ");
-    scanf("%[^\n]", &key_per);
-    imprimir_borda();
-    fflush(stdin);
+  List *resultados_busca_1;
+  List *resultados_busca_2;
+  Registro *registro;
+  char key_aluno[50];
+  char key_disciplina[50];
+  char key_periodo[30];
+  int erro = 0;
 
-    int erro = 0;
-    erro = _disciplina_validar_codigo(key_dis);
-    if(erro) return erro;
-    erro =_registro_validar_periodo(key_per);
-    if(erro) return erro;
+  printf("\nInsira o periodo sem traços ou pontos (20181 20202): ");
+  scanf("%[^\n]", &key_periodo);
+  fflush(stdin);
 
-    resultados_busca_1 = list_search_all(registros,procurar_registro_por_aluno,key_dis);
-    resultados_busca_2 = list_search_all(resultados_busca_1, procurar_registro_por_periodo, key_per);
+  erro =_registro_validar_periodo(key_periodo);
+  if(erro) return erro;
 
-    //como usar list_apply?
-    //list_apply(resultados_busca_2, imprimir_atributo_registro(alunos,disciplinas, IMPRIME_DISCIPLINA));
-    //if(!registro) return CODIGO_INVALIDO;
+  resultados_busca_1 = list_search_all(registros, procurar_registro_por_periodo, key_periodo);
+  
+  switch (metodo) {
+    case POR_ALUNO_R:
+      printf("\nInsira o código do aluno: ");
+      scanf("%[^\n]", &key_aluno);
+      fflush(stdin);
+      imprimir_borda();
+      erro = _aluno_validar_codigo(key_aluno);
+      if(erro) return erro;
+      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);      
+      break;
+    case POR_DISCIPLINA_R:
+      printf("\nInsira o código da disciplina: ");
+      scanf("%[^\n]", &key_disciplina);
+      fflush(stdin);
+      imprimir_borda();
+      erro = _disciplina_validar_codigo(key_disciplina);
+      if(erro) return erro;
+      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_disciplina,key_disciplina);
+      break;
+  }
 
-    list_destroy(resultados_busca_1);
-    list_destroy(resultados_busca_2);
-    imprimir_borda;
+  //printf("RESULTADOS");
+  for (Node *cur = resultados_busca_2->head; cur; cur = cur->next) {
+        imprimir_atributo_registro(alunos, disciplinas, metodo, cur->data);
+  }
+
+  //if(!registro) return ALUNO_NAO_ENCONTRADO;
+
+  list_destroy(resultados_busca_1);
+  list_destroy(resultados_busca_2);
+  imprimir_borda;
+  
   return 0;
 }
 

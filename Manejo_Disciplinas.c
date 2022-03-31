@@ -98,26 +98,26 @@ int cadastrar_disciplina(List *disciplinas) {
 
   erro = _disciplina_cadastrar_nome(nome);
   if(erro){
-    printf("\nErro: %d\n", erro);
+    //printf("\nErro: %d\n", erro);
     return erro;
   }
 
   erro = _disciplina_cadastrar_codigo(codigo);
   
   if(erro){
-    printf("\nErro: %d\n", erro);
+    //printf("\nErro: %d\n", erro);
     return erro;
   }
 
   erro = _disciplina_cadastrar_professor(professor);
   if(erro){
-    printf("\nErro: %d\n", erro);
+    //printf("\nErro: %d\n", erro);
     return erro;
   }
 
   erro = _disciplina_cadastrar_creditos(creditos);
   if(erro){
-    printf("\nErro: %d\n", erro);
+    //printf("\nErro: %d\n", erro);
     return erro;
   }
 
