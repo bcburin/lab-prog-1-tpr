@@ -77,6 +77,12 @@ int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo) {
   return strcmp(registro_disciplina_codigo, disciplina_codigo) == 0;
 }
 
+
+int procurar_registro_por_aluno_e_disciplina(void *registro, void *registro_chave) {
+  
+}
+
+
 int procurar_registro_por_periodo(void *registro, void *periodo) {
   char *registro_periodo = ((Registro*)registro)->periodo;
 

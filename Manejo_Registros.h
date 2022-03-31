@@ -8,6 +8,7 @@
 #include "List.h"
 #include "Registro.h"
 #include "Auxiliar.h"
+#include "Style.h"
 
 typedef enum erro_registro_registro_{
   CODIGO_INVALIDO = -1,
@@ -42,10 +43,10 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas);
 
 
 /* consulta e imprime todas as disciplinas de um aluno em um período */
-int consultar_disciplinas_de_aluno(List *registros, List *alunos, List *disciplinas );
+// int consultar_disciplinas_de_aluno(List *registros, List *alunos, List *disciplinas );
 
 /* consulta e imprime alunos de uma disciplina em um período */
-int consultar_alunos_de_disciplina(List *registro, List *alunos, List *disciplinas);
+// int consultar_alunos_de_disciplina(List *registro, List *alunos, List *disciplinas);
 
 
 

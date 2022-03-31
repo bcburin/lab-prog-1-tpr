@@ -40,6 +40,8 @@ int procurar_registro_por_aluno(void *registro, void *aluno_codigo);
 
 int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo);
 
+int procurar_registro_por_aluno_e_disciplina(void *registro, void *registro_chave);
+
 int procurar_registro_por_periodo(void *registro, void *periodo);
 
 /*FUNÇÕES DE IMPRESSÃO*/

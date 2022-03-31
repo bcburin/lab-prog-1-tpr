@@ -43,24 +43,22 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
 
   resultados_busca_1 = list_search_all(registros, procurar_registro_por_periodo, key_periodo);
   
+  imprimir_borda();
+
   switch (metodo) {
     case POR_ALUNO_R:
-      printf("\nInsira o código do aluno: ");
-      scanf("%[^\n]", &key_aluno);
-      fflush(stdin);
-      imprimir_borda();
-      erro = _aluno_validar_codigo(key_aluno);
+      erro = _aluno_cadastrar_codigo(key_aluno);
       if(erro) return erro;
-      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);      
+
+      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);    
+
       break;
     case POR_DISCIPLINA_R:
-      printf("\nInsira o código da disciplina: ");
-      scanf("%[^\n]", &key_disciplina);
-      fflush(stdin);
-      imprimir_borda();
       erro = _disciplina_validar_codigo(key_disciplina);
       if(erro) return erro;
+
       resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_disciplina,key_disciplina);
+
       break;
   }
 
@@ -73,10 +71,35 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
 
   list_destroy(resultados_busca_1);
   list_destroy(resultados_busca_2);
-  imprimir_borda;
+  imprimir_borda();
   
   return 0;
 }
+
+
+int remover_registro(List *registros, List *alunos, List* disciplinas) {
+  char aluno_codigo[30];
+  char disciplina_codigo[30];
+
+  imprimir_borda();
+
+  printf("INSIRA DADOS DO ALUNO E DA DISCIPLINA DA MATRICULA A SER REMOVIDA\n")
+
+  pressione_para_continuar()
+
+  imprimir_borda();
+
+  int erro = 0;
+
+  erro = _aluno_cadastrar_codigo(aluno_codigo);
+  if(erro) return erro;
+
+  erro = _disciplina_cadastrar_codigo(disciplina_codigo);
+  if(erro) return erro;
+
+  
+}
+
 
 int _registro_validar_periodo(const char *periodo){
     if ((strlen(periodo) != PERIODO_SIZE-1) || (is_digit(periodo))) return PERIODO_INVALIDO;
