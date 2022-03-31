@@ -10,8 +10,10 @@
 #include "Auxiliar.h"
 
 typedef enum erro_registro_registro_{
-  CODIGO_INVALIDO = -1,
-  PERIODO_INVALIDO = -2,
+  CODIGO_ALUNO_INVALIDO_R = -1,
+  CODIGO_DISCIPLINA_INVALIDO_R = -2,
+  PERIODO_INVALIDO_R = -3,
+  REGISTRO_NAO_ENCONTRADO = -4
 } ERRO_REGISTRO_REGISTRO;
 
 typedef enum metodo_de_busca_r{
@@ -40,12 +42,6 @@ int remover_registro(List *registros);//IMPLEMENTAR
 //TODO: imprimir resultados
 int consultar_registro(List *registros, List *alunos, List *disciplinas);
 
-
-/* consulta e imprime todas as disciplinas de um aluno em um período */
-int consultar_disciplinas_de_aluno(List *registros, List *alunos, List *disciplinas );
-
-/* consulta e imprime alunos de uma disciplina em um período */
-int consultar_alunos_de_disciplina(List *registro, List *alunos, List *disciplinas);
 
 
 

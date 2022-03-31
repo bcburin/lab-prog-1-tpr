@@ -28,7 +28,8 @@ typedef enum {
 /* - Cria uma  instancia de Registro e a retorna
  * - Aloca memoria para criar copias de todos os parametros enviados
  */
-Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *periodo);
+//Registro* criar_registro(char *aluno_codigo, char *disciplina_codigo, char *periodo);
+int cadastrar_registro(List *registros);
 
 /* FUNCAO DESTRUTORA */
 

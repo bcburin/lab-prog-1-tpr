@@ -4,7 +4,7 @@
 int _registro_determinar_metodo_de_busca() {
   imprimir_borda();
   printf("%d - Por aluno\n", POR_ALUNO_R);
-  printf("%d - Por codigo\n", POR_CODIGO_A);
+  printf("%d - Por disciplina\n", POR_DISCIPLINA_R);
   imprimir_borda();
 
   printf("\nOpcao desejada: ");
@@ -34,7 +34,7 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
   char key_periodo[30];
   int erro = 0;
 
-  printf("\nInsira o periodo sem traços ou pontos (20181 20202): ");
+  printf("\nInsira o periodo sem tracos ou pontos (20181 20202): ");
   scanf("%[^\n]", &key_periodo);
   fflush(stdin);
 
@@ -45,21 +45,21 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
   
   switch (metodo) {
     case POR_ALUNO_R:
-      printf("\nInsira o código do aluno: ");
+      printf("\nInsira o codigo do aluno: ");
       scanf("%[^\n]", &key_aluno);
       fflush(stdin);
       imprimir_borda();
       erro = _aluno_validar_codigo(key_aluno);
-      if(erro) return erro;
+      if(erro == CODIGO_A_INVALIDO) return CODIGO_ALUNO_INVALIDO_R;
       resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);      
       break;
     case POR_DISCIPLINA_R:
-      printf("\nInsira o código da disciplina: ");
+      printf("\nInsira o codigo da disciplina: ");
       scanf("%[^\n]", &key_disciplina);
       fflush(stdin);
       imprimir_borda();
       erro = _disciplina_validar_codigo(key_disciplina);
-      if(erro) return erro;
+      if(erro == CODIGO_D_INVALIDO) return CODIGO_DISCIPLINA_INVALIDO_R;
       resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_disciplina,key_disciplina);
       break;
   }
@@ -69,7 +69,7 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
         imprimir_atributo_registro(alunos, disciplinas, metodo, cur->data);
   }
 
-  //if(!registro) return ALUNO_NAO_ENCONTRADO;
+  if(!registro) return REGISTRO_NAO_ENCONTRADO;
 
   list_destroy(resultados_busca_1);
   list_destroy(resultados_busca_2);
@@ -79,7 +79,7 @@ int consultar_registro(List *registros, List *alunos, List *disciplinas){
 }
 
 int _registro_validar_periodo(const char *periodo){
-    if ((strlen(periodo) != PERIODO_SIZE-1) || (is_digit(periodo))) return PERIODO_INVALIDO;
+    if ((strlen(periodo) != PERIODO_SIZE-1) || (is_digit(periodo))) return PERIODO_INVALIDO_R;
     return 0;
 }
 
@@ -91,7 +91,7 @@ int _registro_cadastrar_periodo(char* periodo) {
   scanf("%s", periodo);
 
   int erro = _registro_validar_periodo(periodo);
-  if (erro) return PERIODO_INVALIDO;
+  if (erro) return PERIODO_INVALIDO_R;
 
   return 0;
 }
