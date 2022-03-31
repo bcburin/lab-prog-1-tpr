@@ -48,7 +48,7 @@ int procurar_registro_por_periodo(void *registro, void *periodo);
 /*FUNÇÕES DE IMPRESSÃO*/
 
 //acessa listas, busca por código e imprime nome do atributo
-void imprimir_atributo_registro(List *alunos, List *disciplinas,int metodo, void *registro);
+// void imprimir_atributo_registro(List *alunos, List *disciplinas,int metodo, void *registro);
 
 void imprimir_registro(void *registro);
 

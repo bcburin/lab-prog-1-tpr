@@ -1,21 +1,32 @@
 
 #include "Manejo_Registros.h"
 
-int _registro_determinar_metodo_de_busca() {
-  imprimir_borda();
-  printf("%d - Por aluno\n", POR_ALUNO_R);
-  printf("%d - Por disciplina\n", POR_DISCIPLINA_R);
-  imprimir_borda();
+// int _registro_determinar_metodo_de_busca() {
+//   imprimir_borda();
+//   printf("\n%d - Por aluno\n", POR_ALUNO_R);
+//   printf("%d - Por disciplina\n", POR_DISCIPLINA_R);
+//   imprimir_borda();
 
-  printf("\nOpcao desejada: ");
+//   printf("\nOpcao desejada: ");
 
-  int metodo = 0;
+//   int metodo = 0;
+//   fflush(stdin);
+//   scanf("%d", &metodo);
+
+//   // Validar metodo
+
+//   return metodo;
+// }
+
+
+int _registro_filtrar_por_periodo() {
+  char op;
+  printf("\nDeseja filtrar por periodo? (s/n) ");
   fflush(stdin);
-  scanf("%d", &metodo);
-
-  // Validar metodo
-
-  return metodo;
+  scanf("%c", &op);
+  if (op != 's' && op != 'S' && op != 'n' && op != 'N')
+    return OPCAO_INVALIDA;
+  return op == 's';
 }
 
 
@@ -56,66 +67,136 @@ int cadastrar_registro(List *registros, List *alunos, List *disciplinas) {
 }
 
 
-int consultar_registro(List *registros, List *alunos, List *disciplinas){
-  int metodo = _registro_determinar_metodo_de_busca();
-  if(metodo < 0) return metodo; // Retornar erro
+// int consultar_registro(List *registros, List *alunos, List *disciplinas){
+//   int metodo = _registro_determinar_metodo_de_busca();
+//   if(metodo < 0) return metodo; // Retornar erro
+
+//   imprimir_borda();
+//   fflush(stdin);
+
+//   List *resultados_busca_1;
+//   List *resultados_busca_2;
+//   Registro *registro;
+//   char key_aluno[50];
+//   char key_disciplina[50];
+//   char key_periodo[30];
+//   int erro = 0;
+
+//   erro =_registro_cadastrar_periodo(key_periodo);
+
+//   if(erro) return erro;
+
+//   //printf("cadastrei o periodo\n");
+//   resultados_busca_1 = list_search_all(registros, procurar_registro_por_periodo, key_periodo);
+  
+//   imprimir_borda();
+
+//   switch (metodo) {
+//     case POR_ALUNO_R:
+//       erro = _aluno_cadastrar_codigo(key_aluno);
+//       if(erro) return erro;
+//       resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);  
+//       metodo = IMPRIME_DISCIPLINA;  
+//       break;
+
+//     case POR_DISCIPLINA_R:
+//       erro = _disciplina_cadastrar_codigo(key_disciplina);
+//       if(erro) return erro;
+//       resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_disciplina,key_disciplina);
+//       metodo = IMPRIME_ALUNO;
+
+//       break;
+//   }
+
+//   imprimir_borda();
+//   //printf("%d\n", resultados_busca_2->size);
+//   if(!(resultados_busca_2->size)) return REGISTRO_NAO_ENCONTRADO;
+//   printf("--------------------- RESULTADOS --------------------");
+//   imprimir_borda();
+//   for(Node *cur = resultados_busca_2->head; cur ; cur=cur->next) {
+//         imprimir_atributo_registro(alunos, disciplinas, metodo, cur->data);
+//   }
+  
+//   pressione_para_continuar();
+
+//   list_destroy(resultados_busca_1);
+//   list_destroy(resultados_busca_2);
+
+
+//   imprimir_borda();
+  
+//   return 0;
+// }
+
+
+
+int consultar_registro_por_aluno(List *registros, List *alunos) {
+  char aluno_codigo[30];
+  char periodo[10];
 
   imprimir_borda();
-  fflush(stdin);
 
-  List *resultados_busca_1;
-  List *resultados_busca_2;
-  Registro *registro;
-  char key_aluno[50];
-  char key_disciplina[50];
-  char key_periodo[30];
   int erro = 0;
 
-  erro =_registro_cadastrar_periodo(key_periodo);
-
+  erro = _aluno_cadastrar_codigo(aluno_codigo);
   if(erro) return erro;
 
-  //printf("cadastrei o periodo\n");
-  resultados_busca_1 = list_search_all(registros, procurar_registro_por_periodo, key_periodo);
-  
-  imprimir_borda();
+  int filtro = _registro_filtrar_por_periodo();
+  if(filtro == OPCAO_INVALIDA) return filtro;
 
-  switch (metodo) {
-    case POR_ALUNO_R:
-      erro = _aluno_cadastrar_codigo(key_aluno);
-      if(erro) return erro;
-      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_aluno,key_aluno);  
-      metodo = IMPRIME_DISCIPLINA;  
-      break;
-
-    case POR_DISCIPLINA_R:
-      erro = _disciplina_cadastrar_codigo(key_disciplina);
-      if(erro) return erro;
-      resultados_busca_2 = list_search_all(resultados_busca_1,procurar_registro_por_disciplina,key_disciplina);
-      metodo = IMPRIME_ALUNO;
-
-      break;
+  if (filtro) {
+    erro = _registro_cadastrar_periodo(periodo);
+    if (erro) return erro;
   }
 
-  imprimir_borda();
-  //printf("%d\n", resultados_busca_2->size);
-  if(!(resultados_busca_2->size)) return REGISTRO_NAO_ENCONTRADO;
-  printf("--------------------- RESULTADOS --------------------");
-  imprimir_borda();
-  for(Node *cur = resultados_busca_2->head; cur ; cur=cur->next) {
-        imprimir_atributo_registro(alunos, disciplinas, metodo, cur->data);
+  Registro chave = (Registro) {aluno_codigo, NULL, filtro ? periodo : NULL};
+
+  List *resultados = list_search_all(registros, procurar_registro_por_registro, &chave);
+
+  if (resultados->size == 0) {
+    printf("\nNenhum resultado encontrado.\n");
+  } else {
+    list_apply(resultados, imprimir_registro);
   }
-  
+
+  list_destroy(resultados);
+
   pressione_para_continuar();
+}
 
-  list_destroy(resultados_busca_1);
-  list_destroy(resultados_busca_2);
 
+int consultar_registro_por_disciplina(List *registros, List *disciplinas) {
+  char disciplina_codigo[30];
+  char periodo[10];
 
   imprimir_borda();
-  
-  return 0;
+
+  int erro = 0;
+
+  erro = _disciplina_cadastrar_codigo(disciplina_codigo);
+  if(erro) return erro;
+
+  int filtro = _registro_filtrar_por_periodo();
+  if(filtro == OPCAO_INVALIDA) return filtro;
+
+  if (filtro) {
+    erro = _registro_cadastrar_periodo(periodo);
+    if (erro) return erro;
+  }
+
+  Registro chave = (Registro) {NULL, disciplina_codigo, filtro ? periodo : NULL};
+
+  List *resultados = list_search_all(registros, procurar_registro_por_registro, &chave);
+
+  if (resultados->size == 0) {
+    printf("\nNenhum resultado encontrado.\n");
+  } else {
+    list_apply(resultados, imprimir_registro);
+  }
+
+  list_destroy(resultados);
 }
+
 
 
 int remover_registro(List *registros) {
@@ -150,6 +231,8 @@ int remover_registro(List *registros) {
     imprimir_borda();
     printf("Matricula ambaixo removida com sucesso: \n");
     imprimir_registro(removido);
+  } else {
+    printf("Nenhuma matricula a ser romovida!\n");
   }
 
   destruir_registro(removido);

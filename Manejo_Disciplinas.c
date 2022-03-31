@@ -4,7 +4,7 @@
 
 int _disciplina_determinar_metodo_de_busca() {
   imprimir_borda();
-  printf("%d - Por nome\n", POR_NOME_D);
+  printf("\n%d - Por nome\n", POR_NOME_D);
   printf("%d - Por codigo\n", POR_CODIGO_D);
 
   imprimir_borda();

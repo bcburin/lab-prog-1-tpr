@@ -3,7 +3,7 @@
 
 int _aluno_determinar_metodo_de_busca() {
   imprimir_borda();
-  printf("%d - Por nome\n", POR_NOME_A);
+  printf("\n%d - Por nome\n", POR_NOME_A);
   printf("%d - Por codigo\n", POR_CODIGO_A);
   printf("%d - Por CPF\n", POR_CPF);
   imprimir_borda();
@@ -29,8 +29,9 @@ int _aluno_validar_cpf(const char *cpf) {
   return 0;
 }
 
-int _aluno_cadastrar_nome(char *nome) {
-  printf("\nInsira o nome do aluno: ");
+int _aluno_cadastrar_nome(char *nome, int cadastro) {
+  if (cadastro) printf("\nInsira o nome do aluno: ");
+  else printf("Insira o nome ou parte do nome do aluno: ");
 
   fflush(stdin);
   scanf("%[^\n]", nome);
@@ -81,7 +82,7 @@ int cadastrar_aluno(List *alunos) {
 
   int erro = 0;
 
-  erro = _aluno_cadastrar_nome(nome);
+  erro = _aluno_cadastrar_nome(nome, 1);
   if(erro) return erro;
   
   erro = _aluno_cadastrar_codigo(codigo);
@@ -117,33 +118,37 @@ int remover_aluno(List *alunos) {
 
   char key[50];
   int erro = 0;
+  Aluno *removido = NULL;
 
   switch (metodo) {
     case POR_NOME_A:
-      printf("\nInsira o nome ou parte do nome: ");
-      scanf("%[^\n]", &key);
-      if ( list_remove_first(alunos, procurar_aluno_por_nome, key) )
-        return ALUNO_NAO_ENCONTRADO;
+      erro = _aluno_cadastrar_nome(key, 0);
+      if(erro) return erro;
+      removido = list_retrieve_first(alunos, procurar_aluno_por_nome, key);
+      if (!removido) return ALUNO_NAO_ENCONTRADO;
       break;
+
     case POR_CODIGO_A:
-      printf("\nInsira o codigo: ");
-      scanf("%[^\n]", &key);
-      erro = _aluno_validar_codigo(key);
-      if (erro) 
-        return erro;
-      if ( list_remove_first(alunos, procurar_aluno_por_codigo, key) )
-        return ALUNO_NAO_ENCONTRADO;
+      erro = _aluno_cadastrar_codigo(key);
+      if (erro) return erro;
+      removido = list_retrieve_first(alunos, procurar_aluno_por_codigo, key);
+      if (!removido) return ALUNO_NAO_ENCONTRADO;
       break;
+
     case POR_CPF:
-      printf("\nInsira o CPF: ");
-      scanf("%[^\n]", &key);
-      erro = _aluno_validar_cpf(key);
-      if (erro) 
-        return erro;
-      if ( list_remove_first(alunos, procurar_aluno_por_cpf, key) )
-        return ALUNO_NAO_ENCONTRADO;
+      erro = _aluno_cadastrar_cpf(key);
+      if (erro) return erro;
+      removido = list_retrieve_first(alunos, procurar_aluno_por_cpf, key);
+      if (!removido) return ALUNO_NAO_ENCONTRADO;
       break;
   }
+
+  // Mostrar aluno removido
+  imprimir_borda();
+  printf("\nAluno abaixo removido com sucesso: \n");
+  imprimir_aluno(removido);
+  destruir_aluno(removido);
+  pressione_para_continuar();
 
   return 0;
 }
@@ -162,21 +167,17 @@ int consultar_aluno(List *alunos) {
 
   switch (metodo) {
     case POR_NOME_A:
-      printf("\nInsira o nome ou parte do nome: ");
-      scanf("%[^\n]", &key);
+      erro = _aluno_cadastrar_nome(key, 0);
+      if(erro) return erro;
       aluno = list_search(alunos, procurar_aluno_por_nome, key);
       break;
     case POR_CODIGO_A:
-      printf("\nInsira o codigo: ");
-      scanf("%[^\n]", &key);
-      erro = _aluno_validar_codigo(key);
+      erro = _aluno_cadastrar_codigo(key);
       if(erro) return erro;
       aluno = list_search(alunos,procurar_aluno_por_codigo,key);
       break;
     case POR_CPF:
-      printf("\nInsira o CPF: ");
-      scanf("%[^\n]", &key);
-      erro = _aluno_validar_cpf(key);
+      erro = _aluno_cadastrar_cpf(key);
       if(erro) return erro;
       aluno = list_search(alunos,procurar_aluno_por_cpf,key);
       break;

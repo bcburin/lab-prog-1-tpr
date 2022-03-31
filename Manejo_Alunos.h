@@ -27,7 +27,7 @@ int _aluno_validar_codigo(const char *codigo);
 
 int _aluno_validar_cpf(const char *cpf);
 
-int _aluno_cadastrar_nome(char*);
+int _aluno_cadastrar_nome(char*, int cadastro);
 
 int _aluno_cadastrar_codigo(char*);
 

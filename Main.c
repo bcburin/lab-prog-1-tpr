@@ -2,13 +2,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include "List.h"
-#include "Disciplina.h"
 #include "Manejo_Alunos.h"
 #include "Manejo_Disciplinas.h"
 #include "Manejo_Registros.h"
 #include "Style.h"
-#include "Registro.h"
-#include "Manejo_Registros.h"
 
 
 /* OPCOES DO MENU */
@@ -24,14 +21,21 @@ typedef enum opcao {CADASTRAR_ALUNO = 1,
                     CONSULTAR_DISCIPLINA,
                     MATRICULAR_ALUNO_EM_DISCIPLINA,
                     MOSTRAR_MATRICULAS,
-                    CONSULTAR_REGISTRO,
+                    CONSULTAR_MATRICULAS_ALUNO,
+                    CONSULTAR_ALUNOS_MATRICULADOS_DISCIPLINA,
+                    DESFAZER_MATRICULA,
+                    DESFAZER_MATRICULAS_DE_ALUNO,
+                    DESFAZER_MATRICULAS_DE_DISCIPLINA,
                     SAIR
               } Opcao;
 
 void imprimir_menu();
 
+void imprimir_erro(int erro);
+
 
 int main() {
+  // Carregar listas
   List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
   List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
   List *registros = list_load("registros.bin", fread_registro, destruir_registro);
@@ -51,27 +55,22 @@ int main() {
     switch(op) {
       case CADASTRAR_ALUNO:
         erro = cadastrar_aluno(alunos);
-        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
-        if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
+        imprimir_erro(erro);
         break;
 
       case REMOVER_ALUNO:
         erro = remover_aluno(alunos);
-        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
-        if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
-        if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
+        imprimir_erro(erro);
         break;
 
       case CADASTRAR_DISCIPLINA:
         erro = cadastrar_disciplina(disciplinas);
-        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
-        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
+        imprimir_erro(erro);
         break;
 
       case REMOVER_DISCIPLINA:
         erro = remover_disciplina(disciplinas);
-        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
-        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
+        imprimir_erro(erro);
         break;
 
       case MOSTRAR_ALUNOS:
@@ -86,10 +85,7 @@ int main() {
 
       case CONSULTAR_ALUNO:
         erro = consultar_aluno(alunos);
-        if (erro == CODIGO_ALUNO_INVALIDO_R) printf("\nCodigo de aluno invalido!\n");
-        if (erro == CODIGO_DISCIPLINA_INVALIDO_R) printf("\nCodigo de disciplina invalido!\n");
-        if (erro == PERIODO_INVALIDO) printf("\nCodigo de disciplina invalido!\n");
-        if (erro == REGISTRO_NAO_ENCONTRADO) printf("\nRegistro nao encontrado!\n");
+        imprimir_erro(erro);
         pressione_para_continuar();
         break;
 
@@ -100,28 +96,37 @@ int main() {
 
       case CONSULTAR_DISCIPLINA:
         erro = consultar_disciplina(disciplinas);
-        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
-        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
-        if (erro == CREDITOS_INVALIDO) printf("\nCreditos invalidos!\n");
+        imprimir_erro(erro);
         pressione_para_continuar();
         break;
 
       case MATRICULAR_ALUNO_EM_DISCIPLINA:
         erro = cadastrar_registro(registros, alunos, disciplinas);
-        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo de aluno invalido!\n");
-        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo de disciplina invalido!\n");
-        if (erro == PERIODO_INVALIDO) printf("\nPeriodo invalido!\n");
-        if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
-        if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
-        if (erro == REGISTRO_NAO_ENCONTRADO) printf("\nRegistro nao encontrado\n");
+        imprimir_erro(erro);
         break;
 
-      case CONSULTAR_REGISTRO:
-        erro = consultar_registro(registros, alunos, disciplinas);
-        if (erro == PERIODO_INVALIDO)  printf("\nPeriodo inserido invalido!");
-        if (erro == CODIGO_A_INVALIDO) printf("\nCodigo de aluno invalido!\n");
-        if (erro == CODIGO_D_INVALIDO) printf("\nCodigo de disciplian invalido\n");
+      case CONSULTAR_MATRICULAS_ALUNO:
+        erro = consultar_registro_por_aluno(registros, alunos);
+        imprimir_erro(erro);
         break;
+
+      case CONSULTAR_ALUNOS_MATRICULADOS_DISCIPLINA:
+        erro = consultar_registro_por_disciplina(registros, disciplinas);
+        imprimir_erro(erro);
+        break;
+
+      case DESFAZER_MATRICULA:
+        erro = remover_registro(registros);
+        imprimir_erro(erro);
+
+      case DESFAZER_MATRICULAS_DE_ALUNO:
+        erro = remover_registros_por_aluno(registros);
+        imprimir_erro(erro);
+
+      case DESFAZER_MATRICULAS_DE_DISCIPLINA:
+        erro = remover_registros_por_disciplina(registros);
+        imprimir_erro(erro);
+
       case SAIR:
         sair = 1;
         break;
@@ -149,6 +154,21 @@ int main() {
 }
 
 
+void imprimir_erro(int erro) {
+  if (erro == CODIGO_A_INVALIDO) printf("\nCodigo invalido!\n");
+  if (erro == CPF_INVALIDO) printf("\nCPF invalido!\n");
+  if (erro == ALUNO_NAO_ENCONTRADO) printf("\nAluno nao encontrado!\n");
+  if (erro == CODIGO_D_INVALIDO) printf("\nCodigo invalido!\n");
+  if (erro == CREDITOS_INVALIDO) printf("\nCreditos invalidos!\n");
+  if (erro == DISCIPLINA_NAO_ENCONTRADA) printf("\nDisciplina nao encontrada!\n");
+  if (erro == CODIGO_ALUNO_INVALIDO_R) printf("\nCodigo de aluno invalido!\n");
+  if (erro == CODIGO_DISCIPLINA_INVALIDO_R) printf("\nCodigo de disciplina invalido!\n");
+  if (erro == PERIODO_INVALIDO) printf("\nCodigo de disciplina invalido!\n");
+  if (erro == REGISTRO_NAO_ENCONTRADO) printf("\nRegistro nao encontrado!\n");
+  if (erro == OPCAO_INVALIDA) printf("\nEntrada invalida!\n");
+}
+
+
 void imprimir_menu() {
   imprimir_borda();
   printf("-------------------     MENU    ---------------------");
@@ -162,8 +182,12 @@ void imprimir_menu() {
   printf("%d - Consultar aluno\n", CONSULTAR_ALUNO);
   printf("%d - Consultar disciplina\n", CONSULTAR_DISCIPLINA);
   printf("%d - Matricular aluno em disciplina\n", MATRICULAR_ALUNO_EM_DISCIPLINA);
-  printf("%d - Matricular matriculas vigentes\n", MOSTRAR_MATRICULAS);
-  printf("%d - Consultar registro\n", CONSULTAR_REGISTRO);
+  printf("%d - Mostrar matriculas vigentes\n", MOSTRAR_MATRICULAS);
+  printf("%d - Consultar disciplinas nas quais um aluno esta cadastrado\n", CONSULTAR_MATRICULAS_ALUNO);
+  printf("%d - Consultar alunos matriculados em disciplina\n", CONSULTAR_ALUNOS_MATRICULADOS_DISCIPLINA);
+  printf("%d - Desfazer matricula\n", DESFAZER_MATRICULA);
+  printf("%d - Desfazer matriculas de aluno\n", DESFAZER_MATRICULAS_DE_ALUNO);
+  printf("%d - Desfazer matriculas de disciplina\n", DESFAZER_MATRICULAS_DE_DISCIPLINA);
   printf("%d - Sair\n", SAIR);
   imprimir_borda();
 }

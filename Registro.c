@@ -80,11 +80,17 @@ int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo) {
 
 int procurar_registro_por_registro(void *registro, void *registro_chave) {
   Registro *reg = (Registro*)registro;
-  Registro *reg_chave = (Registro*)registro;
+  Registro *reg_chave = (Registro*)registro_chave;
 
-  int mesmo_aluno = strcmp(reg->aluno_codigo, reg_chave->aluno_codigo);
-  int mesma_disciplina = strcmp(reg->disciplina_codigo, reg_chave->disciplina_codigo);
-  int mesmo_periodo = strcmp(reg->periodo, reg_chave->periodo);
+  int mesmo_aluno = 
+          reg_chave->aluno_codigo ?
+          strcmp(reg->aluno_codigo, reg_chave->aluno_codigo)==0 : 1;
+  int mesma_disciplina = 
+          reg_chave->disciplina_codigo ? 
+          strcmp(reg->disciplina_codigo, reg_chave->disciplina_codigo)==0 : 1;
+  int mesmo_periodo = 
+          reg_chave->periodo ?  
+          strcmp(reg->periodo, reg_chave->periodo)==0 : 1;
 
   return (mesmo_aluno && mesma_disciplina && mesmo_periodo);
 }
@@ -96,22 +102,22 @@ int procurar_registro_por_periodo(void *registro, void *periodo) {
   return strcmp(registro_periodo, periodo) == 0;
 }
 
-void imprimir_atributo_registro(List *alunos, List *disciplinas,int metodo, void *registro){
-    Aluno *aluno;
-    Disciplina *disciplina;
-    switch (metodo){
-      case IMPRIME_DISCIPLINA:
-        disciplina = list_search(disciplinas,procurar_disciplina_por_codigo,((Registro *)registro)->disciplina_codigo); 
-        printf("%s\n", disciplina->nome); 
-        break;
-      case IMPRIME_ALUNO:
-        aluno = list_search(alunos,procurar_aluno_por_codigo,((Registro *)registro)->aluno_codigo);
-        printf("%s\n", aluno->nome); 
-        break;
-      default:
-        break;
-    }
-}
+// void imprimir_atributo_registro(List *alunos, List *disciplinas,int metodo, void *registro){
+//     Aluno *aluno;
+//     Disciplina *disciplina;
+//     switch (metodo){
+//       case IMPRIME_DISCIPLINA:
+//         disciplina = list_search(disciplinas,procurar_disciplina_por_codigo,((Registro *)registro)->disciplina_codigo); 
+//         printf("%s\n", disciplina->nome); 
+//         break;
+//       case IMPRIME_ALUNO:
+//         aluno = list_search(alunos,procurar_aluno_por_codigo,((Registro *)registro)->aluno_codigo);
+//         printf("%s\n", aluno->nome); 
+//         break;
+//       default:
+//         break;
+//     }
+// }
 
 
 void imprimir_registro(void *registro) {

@@ -14,21 +14,25 @@ typedef enum erro_registro_registro_{
   CODIGO_ALUNO_INVALIDO_R = -1,
   CODIGO_DISCIPLINA_INVALIDO_R = -2,
   PERIODO_INVALIDO = -3,
-  REGISTRO_NAO_ENCONTRADO = -4
+  REGISTRO_NAO_ENCONTRADO = -4,
+  OPCAO_INVALIDA = -5
 } ERRO_REGISTRO_REGISTRO;
 
-typedef enum metodo_de_busca_r{
-  POR_ALUNO_R = 1 ,
-  POR_DISCIPLINA_R = 2,
-} METODO_DE_BUSCA_R;
+// typedef enum metodo_de_busca_r{
+//   POR_ALUNO_R = 1 ,
+//   POR_DISCIPLINA_R = 2,
+// } METODO_DE_BUSCA_R;
 
 /* FUNCOES PRIVADAS */
 
-int _registro_determinar_metodo_de_busca();
+// int _registro_determinar_metodo_de_busca();
 
 int _registro_validar_periodo(const char *periodo);
 
 int _registro_cadastrar_periodo(char*);
+
+// Determina se o usuario quer ou nao aplicar o filtro de periodo
+int _registro_filtrar_por_periodo();
 
 
 /* CADASTRAR REGISTRO */
@@ -47,9 +51,11 @@ int remover_registros_por_disciplina(List *registros);
 
 /* CONSULTAR REGISTRO*/
 
-int consultar_registro(List *registros, List *alunos, List *disciplinas);
+// int consultar_registro(List *registros, List *alunos, List *disciplinas);
 
+int consultar_registro_por_aluno(List *registros, List *alunos);
 
+int consultar_registro_por_disciplina(List *registros, List *disciplinas);
 
 
 #endif
