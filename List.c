@@ -240,6 +240,35 @@ int list_remove_first(List *list, int (*condition)(void *data, void *key), void 
 }
 
 
+List* list_retrieve_all(List *list, int (*condition)(void *data, void *key), void *key) {
+  List *removed = list_create(list->destroy);
+
+  for (Node *curr = list->head; curr; curr = curr->next) {
+    if(condition(curr->data, key)) {
+      void *data = curr->data;
+      _list_remove_node(list, curr);
+      list->size--;
+      list_push(removed, data);
+    }
+  }
+
+  return removed;
+}
+
+
+int list_remove_all(List *list, int (*condition)(void *data, void *key), void *key) {
+  List *removed = list_retrieve_all(list, condition, key);
+
+  int empty = 0;
+
+  if (list_is_empty(removed)) empty = 1;
+
+  list_destroy(removed);
+  
+  return empty;
+}
+
+
 void* list_index(List *list, int index) {
   if (index < 0 || index > list->size-1 ) return NULL;
 

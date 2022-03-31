@@ -10,7 +10,8 @@
 #include "Aluno.h"
 #include "Disciplina.h"
 #include "Manejo_Disciplinas.h"
-#include "Manejo_Registros.h"
+#include "Manejo_Alunos.h"
+
 
 typedef struct Registro_ {
   char* aluno_codigo;
@@ -41,13 +42,16 @@ int procurar_registro_por_aluno(void *registro, void *aluno_codigo);
 
 int procurar_registro_por_disciplina(void *registro, void *disciplina_codigo);
 
+int procurar_registro_por_registro(void *registro, void *registro_chave);
+
 int procurar_registro_por_periodo(void *registro, void *periodo);
 
 /*FUNÇÕES DE IMPRESSÃO*/
 
 //acessa listas, busca por código e imprime nome do atributo
-//poderia ser implementada busca binária
 void imprimir_atributo_registro(List *alunos, List *disciplinas,int chave_impressao, void *registro);
+
+void imprimir_registro(void *registro);
 
 /* FUNCOES DE MANIPULACAO DE ARQUIVOS */
 

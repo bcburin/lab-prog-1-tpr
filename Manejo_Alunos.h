@@ -7,10 +7,10 @@
 #include "Style.h"
 
 typedef enum {
-  CODIGO_A_INVALIDO = -1,
-  CPF_INVALIDO = -2,
-  METODO_INVALIDO = -3,
-  ALUNO_NAO_ENCONTRADO = -4
+  CODIGO_A_INVALIDO = 11,
+  CPF_INVALIDO = 12,
+  METODO_INVALIDO = 13,
+  ALUNO_NAO_ENCONTRADO = 14
 } ERRO_REGISTRO_ALUNO;
 
 typedef enum metodo_de_busca_a_{

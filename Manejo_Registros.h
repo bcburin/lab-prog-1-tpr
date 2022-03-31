@@ -8,6 +8,7 @@
 #include "List.h"
 #include "Registro.h"
 #include "Auxiliar.h"
+#include "Style.h"
 
 typedef enum erro_registro_registro_{
   CODIGO_ALUNO_INVALIDO_R = -1,
@@ -29,19 +30,24 @@ int _registro_validar_periodo(const char *periodo);
 
 int _registro_cadastrar_periodo(char*);
 
-/* REMOVER ALUNO */
 
-/* TODO: Remove o registro 
- */
-int remover_registro(List *registros);//IMPLEMENTAR
+/* CADASTRAR REGISTRO */
 
-//TODO
-/* IMPRIMIR O REGISTRO*/
+int cadastrar_registro(List *registros, List *alunos, List *disciplinas);
+
+
+/* REMOVER REGISTROS */
+
+int remover_registro(List *registros);
+
+int remover_registros_por_aluno(List *registros);
+
+int remover_registros_por_disciplina(List *registros);
+
 
 /* CONSULTAR REGISTRO*/
-//TODO: imprimir resultados
-int consultar_registro(List *registros, List *alunos, List *disciplinas);
 
+int consultar_registro(List *registros, List *alunos, List *disciplinas);
 
 
 
