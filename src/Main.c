@@ -60,9 +60,9 @@ void imprimir_erro(int erro);
 
 int main() {
   // Carregar listas
-  List *alunos = list_load("alunos.bin", fread_aluno, destruir_aluno);
-  List *disciplinas = list_load("disciplinas.bin", fread_disciplina, destruir_disciplina);
-  List *registros = list_load("registros.bin", fread_registro, destruir_registro);
+  List *alunos = list_load("data/alunos.bin", fread_aluno, destruir_aluno);
+  List *disciplinas = list_load("data/disciplinas.bin", fread_disciplina, destruir_disciplina);
+  List *registros = list_load("data/registros.bin", fread_registro, destruir_registro);
 
 
   int op;
@@ -227,9 +227,9 @@ int main() {
   imprimir_borda();
   
   // Persistir memoria
-  list_save(alunos, "alunos.bin", fwrite_aluno);
-  list_save(disciplinas, "disciplinas.bin", fwrite_disciplina);
-  list_save(registros, "registros.bin", fwrite_registro);
+  list_save(alunos, "data/alunos.bin", fwrite_aluno);
+  list_save(disciplinas, "data/disciplinas.bin", fwrite_disciplina);
+  list_save(registros, "data/registros.bin", fwrite_registro);
 
   // Liberar memoria utilizada para as listas
   list_destroy(alunos);
