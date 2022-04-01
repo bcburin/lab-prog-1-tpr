@@ -4,8 +4,8 @@
 
 int _disciplina_determinar_metodo_de_busca() {
   imprimir_borda();
-  printf("\n%d - Por nome\n", POR_NOME_D);
-  printf("%d - Por codigo\n", POR_CODIGO_D);
+  printf("\n(%d) Por nome\n", POR_NOME_D);
+  printf("(%d) Por codigo\n", POR_CODIGO_D);
 
   imprimir_borda();
 
@@ -16,10 +16,10 @@ int _disciplina_determinar_metodo_de_busca() {
   scanf("%d", &metodo);
 
   // Validar metodo
-  if (metodo >= 1 && metodo <= 2)
-    return metodo;
+  if (metodo < POR_NOME_D || metodo > POR_CODIGO_D)
+    metodo = METODO_D_INVALIDO;
 
-  return 0;
+  return metodo;
 }
 
 
@@ -180,7 +180,7 @@ int remover_disciplina(List *disciplinas) {
 
 int consultar_disciplina(List *disciplinas) {
   int metodo = _disciplina_determinar_metodo_de_busca();
-  if(metodo < 0) return metodo; // Retornar erro
+  if(metodo > 10) return metodo; // Retornar erro
 
   imprimir_borda();
   fflush(stdin);

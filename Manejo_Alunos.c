@@ -15,6 +15,8 @@ int _aluno_determinar_metodo_de_busca() {
   scanf("%d", &metodo);
 
   // Validar metodo
+  if (metodo < POR_NOME_A || metodo > POR_CPF)
+    metodo = METODO_INVALIDO;
 
   return metodo;
 }
@@ -31,7 +33,7 @@ int _aluno_validar_cpf(const char *cpf) {
 
 int _aluno_cadastrar_nome(char *nome, int cadastro) {
   if (cadastro) printf("\nInsira o nome do aluno: ");
-  else printf("Insira o nome ou parte do nome do aluno: ");
+  else printf("\nInsira o nome ou parte do nome do aluno: ");
 
   fflush(stdin);
   scanf("%[^\n]", nome);
@@ -156,7 +158,7 @@ int remover_aluno(List *alunos) {
 
 int consultar_aluno(List *alunos) {
   int metodo = _aluno_determinar_metodo_de_busca();
-  if(metodo < 0) return metodo; // Retornar erro
+  if(metodo > 10) return metodo; // Retornar erro
 
   imprimir_borda();
   fflush(stdin);
